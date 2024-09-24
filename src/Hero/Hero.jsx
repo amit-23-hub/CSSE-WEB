@@ -32,7 +32,7 @@ const Hero = () => {
             <SliderInfo/>
             <Timeline/>
             {/* <SocietyList/> */}
-            <SocietyShowCard/>
+            {/* <SocietyShowCard/> */}
             <Bottom/>
              </div>
             
