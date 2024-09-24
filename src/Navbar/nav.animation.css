@@ -1,0 +1,18 @@
+
+.blink:after {
+    content: "";
+      position: absolute; 
+    background: #f12ab5;
+    height: 3px;
+    bottom: 15px;
+    width: 0;
+    left: 0;
+    transition: 0.3s;
+}
+.blink:hover{
+    color: white;
+}
+
+.blink:hover:after{
+    width: 100%;
+}

@@ -1,0 +1,36 @@
+.timeline-container {
+    color: white;
+  }
+  
+  .event-image {
+    width: 100%;
+    border-radius: 4px;
+    margin-top: 10px;
+  }
+  
+  .view-more-button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .view-more-button:hover {
+    background-color: #004494;
+  }
+  .timeline-icon {
+    background-color: rgb(237, 95, 29);
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+  }
+  
+  
