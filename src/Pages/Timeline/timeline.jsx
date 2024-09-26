@@ -11,7 +11,7 @@ const Timeline = () => {
         icon={<span className="timeline-icon">🎉</span>}
         position="left"
       >
-        <h3>Event Title 1</h3>
+        <h3 className='md:font-bold'>Event Title 1</h3>
         <p>Description for event 1.</p>
       </VerticalTimelineElement>
       <VerticalTimelineElement
