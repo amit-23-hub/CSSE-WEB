@@ -38,7 +38,7 @@ const MembersPage = () => {
    };
 
    return (
-      <div className="flex flex-col min-h-screen items-center bg-zinc-800">
+      <div className="flex flex-col min-h-screen items-center bg-slate-950">
          {/* Header section */}
          <div className=" mb-[4vh] flex flex-col items-center justify-center md:max-w-[50vw]">
             <h1 className="mt-[4vh] uppercase font-bold text-xl text-white">
