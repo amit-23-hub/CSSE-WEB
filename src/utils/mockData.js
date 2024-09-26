@@ -101,9 +101,10 @@ export const members = [
       name: "Amit Kumar Sahani",
       branch: "BTech IT 3rd Year",
       designation: "Executive Member",
-      image: "https://picsum.photos/1080/720",
+      image: "https://drive.google.com/uc?export=view&id=1JEcHiyWlGPr0yX3np1OiuWCd5DBCZaJ4",
       linkedin: "https://www.linkedin.com/in/amitsahani19/",
    },
+
    {
       id: 14,
       name: "Anshul Sengar",

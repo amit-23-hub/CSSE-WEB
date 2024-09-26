@@ -16,17 +16,16 @@ const Bottom = () => {
           <ul>
             <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>Home</li>
             <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>Blog</li>
-            <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>Club</li>
+           
             <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>Society</li>
             <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>CSSE</li>
           </ul>
           <ul>
-            <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>Team</li>
+          <Link to='/members'> <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>Team</li> </Link>
             <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>About</li>
-            <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>T&C</li>
             <li className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1'>About College</li>
           </ul>
-        <div className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 p-1 m-1'>Feedback</div>
+      
       </div>
       <p className='h-px w-full bg-zinc-400 mt-6'></p>
       <p className='text-zinc-400 mt-4'>This is the official website of Computer society of Software Engineers,  Departmental society of Information Technology at Madan Mohan Malaviya University of Technology</p>
