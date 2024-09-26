@@ -2,6 +2,47 @@ import React, { useState } from "react";
 import MemberCard from "./MemberCard";
 import { members } from "../utils/mockData";
 import { motion } from "framer-motion";
+import HimanshuDubey from '../assets/HimanshuDubey.jpg'
+import KrishnaNand from '../assets/KrishnaNand.jpg'
+import UtkarshTiwari from '../assets/UtkarshTiwari.jpg'
+import AhmadFarazAnsari from '../assets/AhmadFarazAnsari.jpg'
+import ShreySrivastava from '../assets/ShreySrivastava.jpg'
+import SachinChauhan from '../assets/SachinChauhan.jpg'
+import DivyanshuKanaujiya from '../assets/DivyanshuKanaujiya.jpg'
+import RupaliMishra from '../assets/RupaliMishra.jpg'
+import SiddhiMishra from '../assets/SiddhiMishra.jpg'
+import SanchitaBajpai from '../assets/SanchitaBajpai.jpg'
+import AbhishresthaTiwari from '../assets/AbhishresthaTiwari.jpg'
+import AdityaTripathi from '../assets/AdityaTripathi.jpg'
+import AmitKumarSahani from '../assets/AmitKumarSahani.jpg'
+import AnshulSengar from '../assets/AnshulSengar.jpg'
+import HimaniRajput from '../assets/HimaniRajput.jpg'
+import KumariNisha from '../assets/KumariNisha.jpg'
+import ManojKumar from '../assets/ManojKumar.jpg'
+import PriyaYadav from '../assets/PriyaYadav.jpg'
+import VisheshSingh from '../assets/VisheshSingh.jpg'
+import AlabhyaGoel from '../assets/AlabhyaGoel.jpg'
+import KomalGupta from '../assets/KomalGupta.jpg'
+import PerneetaAwasthi from '../assets/PerneetaAwasthi.jpg'
+import ShristiSingh from '../assets/ShristiSingh.jpg'
+import VaibhavGarg from '../assets/VaibhavGarg.jpg'
+// import AadityaUpadhyay from '../assets/AadityaUpadhyay.jpg'
+import AditiYadav from '../assets/AditiYadav.jpg'
+import AkashGupta from '../assets/AkashGupta.jpg'
+import RiyaSrivastava from '../assets/RiyaSrivastava.jpg'
+import RyanMaroof from '../assets/RyanMaroof.jpg'
+import SandhyaKumari from '../assets/SandhyaKumari.jpg'
+import SaumyaSrivastava from '../assets/SaumyaSrivastava.jpg'
+import ShashankBhardwaj from '../assets/ShashankBhardwaj.jpg'
+import ShivankarTripathi from '../assets/ShivankarTripathi.jpg'
+import VaishnaviTripathi from '../assets/VaishnaviTripathi.jpg'
+
+
+// Create an array of images
+const memberImages = [HimanshuDubey, KrishnaNand, UtkarshTiwari,AhmadFarazAnsari,ShreySrivastava,SachinChauhan,DivyanshuKanaujiya,RupaliMishra,
+                      SiddhiMishra,SanchitaBajpai,AbhishresthaTiwari,AdityaTripathi,AmitKumarSahani,AnshulSengar,HimaniRajput,KumariNisha,ManojKumar,
+                      PriyaYadav,VisheshSingh,AlabhyaGoel,KomalGupta,PerneetaAwasthi,ShristiSingh,VaibhavGarg,,AditiYadav,AkashGupta,RiyaSrivastava,
+                      RyanMaroof,SandhyaKumari,SaumyaSrivastava,ShashankBhardwaj,ShivankarTripathi,VaishnaviTripathi];
 
 const MembersPage = () => {
    const [filter, setFilter] = useState("All");
@@ -143,7 +184,7 @@ const MembersPage = () => {
                      name={member.name}
                      branch={member.branch}
                      designation={member.designation}
-                     image={member.image}
+                     image={memberImages[i]} 
                      linkedin={member.linkedin}
                   />
                </motion.div>
