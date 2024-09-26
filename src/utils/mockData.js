@@ -3,8 +3,8 @@ export  const members = [
       id: 1,
       name: "Himanshu Dubey",
       branch: "BTech IT 4th Year",
-      designation: "HimanshuDubey.jpg",
-      image:"",
+      designation: "",
+      image:"../assets/HimanshuDubey.jpg",
       linkedin: "https://www.linkedin.com/in/himanshud2611?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
    },
    {
