@@ -1,5 +1,5 @@
 import React from 'react';
-import CsseTextAnimation from '../../Components/csseTextAnimation/csseTextAnimation'
+import CsseTextAnimation from '../../components/csseTextAnimation/csseTextAnimation'
 
 export default function SliderInfo() {
   return (
