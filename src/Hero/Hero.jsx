@@ -6,9 +6,7 @@ import Navbar from '../Navbar/Navbar';
 import Bottom from '../Pages/Bottom/Bottom';
 import Timeline from '../Pages/Timeline/timeline';
 import SliderInfo from '../Pages/SliderInfo/sliderInfo';
-import HomeContent from '../Pages/HomeContent/HomeContent'
-
-
+import HomeContent from '../Pages/HomeContent/HomeContent' ;
 const Hero = () => {
     // const scrollRef = useRef(null);
 
@@ -36,6 +34,7 @@ const Hero = () => {
             {/* <SocietyList/> */}
             {/* <SocietyShowCard/> */}
             <Bottom/>
+    
              </div>
             
          

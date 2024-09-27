@@ -4,7 +4,7 @@ import './Css/locomotive-scroll.css';
 import Hero from './Hero/Hero';
 import CssePage from './Pages/Societypages/CssePage';
 import SocietyShowCard from './Society/SocietyShow';
-import InfoForm from './InfoForm/InfoForm';
+// import InfoForm from './InfoForm/InfoForm';
 import MembersPages from './components/MembersPages';
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
         
         <Route path='/csse' element={<CssePage />} />
         <Route path='/showSo' element={<SocietyShowCard/>}/>
-        <Route path='/infoform' element={<InfoForm/>}/>
+        {/* <Route path='/infoform' element={<InfoForm/>}/> */}
         <Route path='/members' element={<MembersPages />} />
       </Routes>
     </Router>
