@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+.unique-keyboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .unique-key {
+    font-size: 15vw;
+    display: inline-block;
+    font-family: "Barlow", sans-serif;
+    letter-spacing: -1vw;
+    transition: transform 0.2s;
+    color: #fff;
+  }
+  
+  @keyframes uniquePressDown1 {
+    30%,
+    40%,
+    100% {
+      transform: translateY(0);
+    }
+    35% {
+      transform: translateY(10px);
+    }
+  }
+  
+  @keyframes uniquePressDown2 {
+    70%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    75% {
+      transform: translateY(10px);
+    }
+  }
+  
+  @keyframes uniquePressDown3 {
+    30%,
+    40%,
+    100% {
+      transform: translateY(0);
+    }
+    35% {
+      transform: translateY(10px);
+    }
+  }
+  
+  @keyframes uniquePressDown4 {
+    40%,
+    50%,
+    100% {
+      transform: translateY(0);
+    }
+    45% {
+      transform: translateY(10px);
+    }
+  }
+  
+  @keyframes uniquePressDown5 {
+    20%,
+    30%,
+    100% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(10px);
+    }
+  }
+  
+  @keyframes uniquePressDown6 {
+    60%,
+    70%,
+    100% {
+      transform: translateY(0);
+    }
+    65% {
+      transform: translateY(10px);
+    }
+  }
+  
+  @keyframes uniquePressDown7 {
+    10%,
+    20%,
+    100% {
+      transform: translateY(0);
+    }
+    15% {
+      transform: translateY(10px);
+    }
+  }
+  
+  @keyframes uniquePressDown8 {
+    35%,
+    45%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(10px);
+    }
+  }
+  
+  .unique-key:nth-child(1) {
+    animation: uniquePressDown1 2s infinite;
+  }
+  
+  .unique-key:nth-child(2) {
+    animation: uniquePressDown2 3s infinite;
+  }
+  
+  .unique-key:nth-child(3) {
+    animation: uniquePressDown3 4s infinite;
+  }
+  
+  .unique-key:nth-child(4) {
+    animation: uniquePressDown4 2.5s infinite;
+  }
+  
+  .unique-key:nth-child(5) {
+    animation: uniquePressDown5 2.5s infinite;
+  }
+  
+  .unique-key:nth-child(6) {
+    animation: uniquePressDown6 3.5s infinite;
+  }
+  
+  .unique-key:nth-child(7) {
+    animation: uniquePressDown7 2.2s infinite;
+  }
+  
+  .unique-key:nth-child(8) {
+    animation: uniquePressDown8 3.2s infinite;
+  }
+  
+  

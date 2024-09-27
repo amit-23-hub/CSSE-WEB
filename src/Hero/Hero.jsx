@@ -6,6 +6,7 @@ import Navbar from '../Navbar/Navbar';
 import Bottom from '../Pages/Bottom/Bottom';
 import Timeline from '../Pages/Timeline/timeline';
 import SliderInfo from '../Pages/SliderInfo/sliderInfo';
+import HomeContent from '../Pages/HomeContent/HomeContent'
 
 
 const Hero = () => {
@@ -30,6 +31,7 @@ const Hero = () => {
             <div className=' bg-slate-950'>
             <ImageSlider /> 
             <SliderInfo/>
+            <HomeContent className="overflow-hidden"/>
             <Timeline/>
             {/* <SocietyList/> */}
             {/* <SocietyShowCard/> */}

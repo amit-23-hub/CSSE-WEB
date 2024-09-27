@@ -1,0 +1,90 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+/* General styles and layout for the section components */
+.container {
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+}
+
+.container svg {
+  display: block;
+}
+
+section {
+  position: relative;
+  padding: 10em;
+  background: black;
+  color: #fff;
+  text-align: center;
+}
+
+section h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 2.8em;
+  font-weight: 400;
+}
+
+section p {
+  color: #fff;
+  font-size: 1.3em;
+  line-height: 1.5;
+}
+
+.column {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.color {
+  background: hsl(247, 75%, 9%);
+}
+
+/* Triangle Style */
+.ss-style-triangles::before,
+.ss-style-triangles::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.ss-style-triangles::before {
+  top: -50px;
+  background: black
+}
+
+.ss-style-triangles::after {
+  bottom: -50px;
+  background: inherit;
+}
+
+/* Big Triangle */
+#bigtrianglecolor path {
+  fill: hsl(247, 75%, 9%);
+}
+
+/* Curve Down and Up */
+#curveupcolor path,
+#curvedowncolor path {
+  fill: hsl(247, 75%, 9%);
+}
+
+/* Clouds */
+#clouds path {
+  fill: #ecf0f1;
+}
+
+/* Additional Styles */
+@media screen and (max-width: 768px) {
+  section {
+    padding: 5em;
+  }
+
+  section h2 {
+    font-size: 2em;
+  }
+}
