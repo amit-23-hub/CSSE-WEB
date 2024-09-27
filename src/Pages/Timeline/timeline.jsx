@@ -4,6 +4,7 @@ import VerticalTimelineElement from './verticalTimelineElement';
 import './Timeline.css'; // Make sure to import the CSS
 import '../../components/button/Button'
 import { Link } from 'react-router-dom';
+import Button from '../../components/button/Button';
 
 const Timeline = () => {
   return (
