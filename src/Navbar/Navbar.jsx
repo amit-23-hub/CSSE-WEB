@@ -21,9 +21,9 @@ const Navbar = () => {
           
           About
           </li>
-          <li className="p-4 cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
-            Latest News
-          </li>
+          <Link to = "/members"> <li className="p-4 cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
+            Team
+          </li></Link>
           <li className="p-4 cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
             Contact
           </li>

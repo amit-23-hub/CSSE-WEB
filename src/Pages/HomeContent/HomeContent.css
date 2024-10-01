@@ -13,10 +13,11 @@
 
 section {
   position: relative;
-  padding: 10em;
-  background: black;
+  padding: 0 5em;
+  /* background: black; */
   color: #fff;
   text-align: center;
+  margin: 0;
 }
 
 
@@ -89,3 +90,31 @@ section p {
     font-size: 2em;
   }
 }
+
+/* Hexagon shape using CSS */
+.hexagon {
+  width: 250px; 
+  height: 144px;
+  background-color: transparent;
+  position: relative;
+  clip-path: polygon(
+    50% 0%,
+    100% 25%,
+    100% 75%,
+    50% 100%,
+    0% 75%,
+    0% 25%
+  );
+  overflow: hidden;
+}
+
+
+.hexagon img {
+  transition: transform 0.3s ease-in-out;
+}
+
+
+.hexagon:hover img {
+  transform: scale(1.1); 
+}
+

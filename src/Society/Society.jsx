@@ -5,6 +5,7 @@ import city2 from "../assets/city2.png";
 import city3 from "../assets/city3.png";
 import planet1 from "../assets/planet1.png";
 import planet2 from "../assets/planet2.png";
+import Particle from "../components/particle";
 
 const ImageSlider = () => {
   const [positionIndexes, setPositionIndexes] = useState([0, 1, 2, 3, 4]);
@@ -40,7 +41,9 @@ const ImageSlider = () => {
     right1: { x: "50%", scale: 0.7, zIndex: 3 },
   };
   return (
+    
     <div className="flex items-center flex-col justify-center mt-0 ">
+    
       {images.map((image, index) => (
         <motion.img
           key={index}
