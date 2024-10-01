@@ -18,7 +18,7 @@ function App() {
         {/* <Route path='/showSo' element={<SocietyShowCard/>}/> */}
         {/* <Route path='/infoform' element={<InfoForm/>}/> */}
         <Route path='/members' element={<MembersPages />} />
-        <Route path='/events' element={<Events/>} />
+       
         
       </Routes>
     </Router>
