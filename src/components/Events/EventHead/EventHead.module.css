@@ -1,0 +1,163 @@
+@import url('https://fonts.googleapis.com/css?family=Courgette|Roboto');
+
+:root {
+  --ff-serif: 'Courgette', serif;
+  --ff-sans-serif: 'Roboto', sans-serif;
+  --color-accent: #A9DFBF;
+}
+
+/* * {
+  box-sizing: border-box;
+} */
+
+p {
+  font-family: var(--ff-sans-serif);
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+blockquote {
+  position: relative;
+  padding-left: 1.5rem;
+  font-family: var(--ff-serif);
+  font-size: 2rem;
+  line-height: 1.25;
+  letter-spacing: -0.05rem;
+}
+
+blockquote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background-color: var(--color-accent);
+  border-radius: 60px;
+}
+
+/* Hero Section */
+.hero {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.heroInner {
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  clip: rect(0, auto, auto, 0);
+}
+
+@supports (-webkit-overflow-scrolling: touch) {
+  .heroInner {
+    clip: unset;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+}
+
+.heroTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0 1rem;
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-family: var(--ff-serif);
+  font-size: 8vw;
+  letter-spacing: -0.125rem;
+  text-align: center;
+}
+
+@media (min-width: 1200px) {
+  .heroTitle {
+    font-size: 6rem;
+  }
+}
+
+.figure {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
+
+/* Content Section */
+.content {
+  position: relative;
+  margin: 0 auto 8rem;
+  padding: 2rem;
+  margin: 0;
+  background: #000000;
+}
+
+.content::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background-color: rgb(0, 0, 0);
+  z-index: 99;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.contentInner {
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+.contentTitle {
+  font-family: var(--ff-serif);
+  font-size: 3rem;
+  line-height: 1.25;
+  letter-spacing: -0.125rem;
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .contentTitle {
+    font-size: 4rem;
+  }
+}
+
+.contentAuthor {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+  width: 100%;
+  font-family: var(--ff-serif);
+  font-size: 1.5rem;
+  letter-spacing: -0.125rem;
+  text-align: center;
+}
+
+.contentAuthor::before,
+.contentAuthor::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background-color: var(--color-accent);
+}
+
+.contentAuthor::before {
+  margin-right: 1rem;
+}
+
+.contentAuthor::after {
+  margin-left: 1rem;
+}

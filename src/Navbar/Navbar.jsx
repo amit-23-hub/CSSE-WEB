@@ -13,10 +13,9 @@ const Navbar = () => {
             <FaHome className="text-3xl animate-bounce blink" />{" "}
           </li>
 
-          <li className="p-4 cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
-            
-            Event
-          </li>
+          <Link to = "/events"> <li className="p-4 cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
+            Events
+          </li></Link>
           <li className="p-4  cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
           
           About

@@ -1,8 +1,9 @@
 import React from 'react';
-import BottomNav from './BottomNav/BottomNav';
+
 import Logo from '../../assets/mmmutLogo.jpg';
 import csselogo from '../../assets/csselogo.jpg';
 import { Link } from 'react-router-dom';
+import BottomNav from './BottomNav';
 
 const Bottom = () => {
   return (

@@ -1,13 +1,13 @@
 import React from "react";
-import './HomeContent.css';
 import edTech from '../../assets/edTech.png'
-import Gallery from "../triCard/triCard";
 import FaqComponent from "../FAQ/Faqs";
 import LOGOCSSE from '../../assets/LOGOCSSE.png'
+import styles from './HomeContent.module.css';
+import Gallery from "../triCard/triCard";
 
 const Section = () => {
   return (
-    <div className="container">
+    <div className={styles.container}>
       <svg
   id="curveupcolor"
   xmlns="http://www.w3.org/2000/svg"
@@ -93,24 +93,41 @@ const Section = () => {
   <path d="M0 0 C 50 100 80 100 100 0 Z" />
 </svg>
 
-      <section className="col3 ss-style-double-diagonal pt-3 pb-5">
-        
-       <Gallery/>
-        
+      <svg
+        id="curvedowncolor"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        width="100%"
+        height="100"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 0 C 50 100 80 100 100 0 Z" />
+      </svg>
+
+      <svg
+        id="curvedowncolor"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        width="100%"
+        height="100"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 0 C 50 100 80 100 100 0 Z" />
+      </svg>
+
+      <section className={`${styles.col3} ${styles.ssStyleDoubleDiagonal} pt-3 pb-5`}>
+        <Gallery/>
       </section>
 
-
-      <section className="color ss-style-bigtriangle overflow-hidden">
+      <section className={`${styles.color} ${styles.ssStyleBigtriangle} overflow-hidden`}>
         <FaqComponent/>
       </section>
 
       <svg id="bigtrianglecolor" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewBox="0 0 100 102" preserveAspectRatio="none">
         <path d="M0 0 L50 100 L100 0 Z" />
       </svg>
-
-      
-
-      
     </div>
   );
 };
