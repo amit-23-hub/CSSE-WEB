@@ -1,0 +1,25 @@
+.hexagon-container {
+    width: 150px;
+    height: 86.6px;
+    position: relative;
+    margin: 43.3px 0;
+  }
+  
+  .hexagon {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    overflow: hidden;
+  }
+  
+  .hexagon img {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .hexagon img:hover {
+    transform: scale(1.1);
+  }
+  
