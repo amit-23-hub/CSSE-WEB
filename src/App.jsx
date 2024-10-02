@@ -6,6 +6,7 @@ import CssePage from './Pages/Societypages/CssePage';
 // import SocietyShowCard from './Society/SocietyShow';
 // import InfoForm from './InfoForm/InfoForm';
 import MembersPages from './components/MembersPages';
+import Event from './components/Events/Event';
 // import Events from './components/Events/Events';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         {/* <Route path='/showSo' element={<SocietyShowCard/>}/> */}
         {/* <Route path='/infoform' element={<InfoForm/>}/> */}
         <Route path='/members' element={<MembersPages />} />
-       
+       <Route path='/events' element = {<Event/>} />
         
       </Routes>
     </Router>

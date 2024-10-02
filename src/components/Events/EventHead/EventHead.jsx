@@ -1,5 +1,5 @@
 import React from 'react';
-import './EventHead.css'; // Import your CSS
+import styles from './EventHead.module.css'; // Import the CSS module
 
 const HeroContent = () => {
   const headlines = [
@@ -19,21 +19,21 @@ const HeroContent = () => {
   return (
     <div>
       {headlines.map((headline, index) => (
-        <section key={index} className='hero'>
-          <div className='heroInner' id={`section-${index}`}>
+        <section key={index} className={styles.hero}>
+          <div className={styles.heroInner} id={`section-${index}`}>
             <figure
-              className='figure'
+              className={styles.figure}
               style={{ backgroundImage: backgroundImages[index] }}
             ></figure>
-            <h2 className='heroTitle'>{headline}</h2>
+            <h2 className={styles.heroTitle}>{headline}</h2>
           </div>
         </section>
       ))}
 
-      <section className='content'>
-        <article className='contentInner'>
-          <h1 className='contentTitle'>Some Happy Little Text</h1>
-          <h3 className='contentAuthor'>By Bob Ross</h3>
+      <section className={styles.content}>
+        <article className={styles.contentInner}>
+          <h1 className={styles.contentTitle}>Some Happy Little Text</h1>
+          <h3 className={styles.contentAuthor}>By Bob Ross</h3>
           <p>
             A thin paint will stick to a thick paint. The shadows are just like the highlights, but we're going in the opposite direction...
           </p>

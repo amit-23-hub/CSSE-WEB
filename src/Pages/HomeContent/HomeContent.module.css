@@ -1,6 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 
-/* General styles and layout for the section components */
 .container {
   overflow: hidden;
   width: 100%;
@@ -14,12 +13,10 @@
 section {
   position: relative;
   padding: 0 5em;
-  /* background: black; */
   color: #fff;
   text-align: center;
   margin: 0;
 }
-
 
 section h2 {
   margin: 0;
@@ -44,8 +41,8 @@ section p {
 }
 
 /* Triangle Style */
-.ss-style-triangles::before,
-.ss-style-triangles::after {
+.ssStyleTriangles::before,
+.ssStyleTriangles::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -54,12 +51,12 @@ section p {
   transform: translateX(-50%) rotate(45deg);
 }
 
-.ss-style-triangles::before {
+.ssStyleTriangles::before {
   top: -50px;
-  background: black
+  background: black;
 }
 
-.ss-style-triangles::after {
+.ssStyleTriangles::after {
   bottom: -50px;
   background: inherit;
 }
@@ -93,28 +90,18 @@ section p {
 
 /* Hexagon shape using CSS */
 .hexagon {
-  width: 250px; 
+  width: 250px;
   height: 144px;
   background-color: transparent;
   position: relative;
-  clip-path: polygon(
-    50% 0%,
-    100% 25%,
-    100% 75%,
-    50% 100%,
-    0% 75%,
-    0% 25%
-  );
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   overflow: hidden;
 }
-
 
 .hexagon img {
   transition: transform 0.3s ease-in-out;
 }
 
-
 .hexagon:hover img {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
-

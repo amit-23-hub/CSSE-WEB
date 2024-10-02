@@ -99,6 +99,7 @@ blockquote::before {
   margin: 0 auto 8rem;
   padding: 2rem;
   margin: 0;
+  background: #000000;
 }
 
 .content::before {
