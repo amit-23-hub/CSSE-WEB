@@ -1,5 +1,8 @@
 import React from "react";
 import edTech from '../../assets/edTech.png'
+import Mission from '../../assets/Mission.png'
+import join from '../../assets/join.jpg'
+import impact from '../../assets/impact.jpg'
 import FaqComponent from "../FAQ/Faqs";
 import LOGOCSSE from '../../assets/LOGOCSSE.png'
 import styles from './HomeContent.module.css';
@@ -38,11 +41,7 @@ const Section = () => {
     ▪ The basic OBJECTIVES of the society are:<br/>
     ▪ to develop the managerial and soft skills of the students<br/>
     ▪ to organize activities for social awareness and social benefits.<br/>
-    ▪ Toincrease mutual bonding among each other.<br/>
-    ▪ The Society organizes Events(Formal and Informal)for the students of all MCA & B.
-      Tech (IT) Students.<br/>
-    ▪ The Society organizes personality development programs such as seminars, 
-      workshops, and Language classes for the students to learn from their seniors.
+    ▪ To increase mutual bonding among each other.<br/>
     </p>
   </div>
 
@@ -66,17 +65,18 @@ const Section = () => {
         <path d="M0 100 C 20 0 50 0 100 100 Z" />
       </svg>
       <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between">
-        <div className="md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
+        <div className="flex justify-center md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
           <img 
             src={edTech} 
             alt="Vision" 
-            className="w-full h-auto object-cover rounded-lg shadow-lg"
+            className="w-80 h-auto object-cover rounded-full shadow-lg"
           />
         </div>
         <div className="md:w-1/2 w-full p-4">
           <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
-          <p className="text-lg">
-            Our vision is to empower individuals and organizations by providing high-quality services that foster growth, innovation, and sustainability. We aim to be leaders in our field, setting benchmarks in excellence and contributing positively to society.
+          <p className="text-lg text-left">
+            ▪ Our vision is to empower individuals and organizations by providing high-quality services that foster growth, innovation, and sustainability.<br/>
+            ▪ We aim to be leaders in our field, setting benchmarks in excellence and contributing positively to society.
           </p>
         </div>
   
@@ -94,6 +94,35 @@ const Section = () => {
 </svg>
 
       <svg
+        id="curveupcolor"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        width="100%"
+        height="100"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 100 C 20 0 50 0 100 100 Z" />
+      </svg>
+      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between">
+        <div className="flex justify-center md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
+          <img 
+            src={Mission} 
+            alt="Vision" 
+            className="w-60 h-auto object-cover rounded-lg shadow-lg"
+          />
+        </div>
+        <div className="md:w-1/2 w-full p-4">
+          <h2 className="text-2xl font-bold mb-4">Mission</h2>
+          <p className="text-lg text-left">
+          ▪ CSSE Society aims to enhance both managerial and soft skills among students.<br/>
+          ▪ Its mission is to create a platform where students can grow both personally and professionally.
+          </p>
+        </div>
+  
+      </section>
+
+      <svg
         id="curvedowncolor"
         xmlns="http://www.w3.org/2000/svg"
         version="1.1"
@@ -104,6 +133,77 @@ const Section = () => {
       >
         <path d="M0 0 C 50 100 80 100 100 0 Z" />
       </svg>
+      <svg
+        id="curveupcolor"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        width="100%"
+        height="100"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 100 C 20 0 50 0 100 100 Z" />
+      </svg>
+      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between">
+        <div className="flex justify-center md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
+          <img 
+            src={join} 
+            alt="Vision" 
+            className="w-60 h-auto object-cover rounded-full shadow-lg"
+          />
+        </div>
+        <div className="md:w-1/2 w-full p-4">
+          <h2 className="text-2xl font-bold mb-4">Why join CSSE ?</h2>
+          <p className="text-lg text-left">
+          ▪ Joining CSSE offers students a chance to develop essential life skills such as leadership, communication, and teamwork.<br/>
+          ▪ The society conducts various formal and informal events, including personality development programs, workshops, seminars, and language classes.<br/>
+          ▪ By learning from seniors and participating in these activities, students enhance their professional and personal growth.
+
+          </p>
+        </div>
+  
+      </section>
+
+      <svg
+        id="curvedowncolor"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        width="100%"
+        height="100"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 0 C 50 100 80 100 100 0 Z" />
+      </svg>
+      <svg
+        id="curveupcolor"
+        xmlns="http://www.w3.org/2000/svg"
+        version="1.1"
+        width="100%"
+        height="100"
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path d="M0 100 C 20 0 50 0 100 100 Z" />
+      </svg>
+      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between">
+        <div className="flex justify-center md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
+          <img 
+            src={impact} 
+            alt="Vision"
+            className="w-60 h-auto object-cover rounded-full shadow-lg"
+          />
+        </div>
+        <div className="md:w-1/2 w-full p-4">
+          <h2 className="text-2xl font-bold mb-4">Community Impact</h2>
+          <p className="text-lg text-left">
+          ▪ CSSE plays a vital role in fostering community awareness and social responsibility.<br/>
+          ▪ The society organizes activities that not only benefit students but also contribute to the broader social good.<br/>
+          ▪ Through events that encourage mutual cooperation and bonding, the society builds a strong, supportive network among students, creating a lasting impact on both the individual and community levels.<br/>
+          </p>
+        </div>
+  
+      </section>
 
       <svg
         id="curvedowncolor"

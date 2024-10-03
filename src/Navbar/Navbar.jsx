@@ -1,13 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
+import LOGOCSSE from '../assets/LOGOCSSE.png'
 
 
 const Navbar = () => {
   return (
     <>
-      <div className="h-16">
-        <ul className="flex justify-end font-bold">
+      <div className=" flex justify-between">
+        <div>
+          <img src={LOGOCSSE} alt='logo'className="h-40 ml-5 mt-3"/>
+        </div>
+        <ul className="flex justify-end font-bold mt-3">
           <li className="p-4 cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
             
             <FaHome className="text-3xl animate-bounce blink" />{" "}
