@@ -5,10 +5,11 @@ import './Timeline.css'; // Make sure to import the CSS
 import '../../components/button/Button'
 import { Link } from 'react-router-dom';
 import Button from '../../components/button/Button';
+import python from '../../assets/python.png'
 
 const Timeline = () => {
   return (
-    <div >
+    <div>
       <div className='w-full items-center flex justify-center mt-10'>
         <Link to='/csse'>
           <Button text={"Explore CSSE"} />
@@ -16,76 +17,100 @@ const Timeline = () => {
       </div>
       <VerticalTimeline layout="2-columns" animate={true} className="timeline-container">
         <VerticalTimelineElement
-          date="2024-01-01"
-          icon={<span className="timeline-icon">🎉</span>}
+          date="30 September 2024"
+          icon={<span className="timeline-icon"><img src={python} alt='' className='h-10 w-10'></img></span>}
           position="left"
         >
-          <h3>Event Title 1</h3>
-          <p>Description for event 1.</p>
-          <img src="image1.jpg" alt="Event 1" className="event-image" />
+          <h3 className='underline font-semibold'>• Quiz(Python & Aptitude)</h3>
+          <p>Test your Python programming skills in our exciting Python Quiz organized by the tech society!"</p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
-          date="2024-02-01"
-          icon={<span className="timeline-icon">📅</span>}
+          date="20 October 2024"
+          icon={<span className="timeline-icon">🕵️‍♂️</span>}
           position="right"
         >
-          <h3>Event Title 2</h3>
-          <p>Description for event 2.</p>
-          <img src="image2.jpg" alt="Event 2" className="event-image" />
+          <h3 className='underline font-semibold'>• Codebugger</h3>
+          <p>"Showcase your debugging skills and solve challenging code errors in our thrilling Codebugger event!"</p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
-          date="2024-03-01"
+          date="20 November 2024"
+          icon={<span className="timeline-icon">💃</span>}
+          position="left"
+        >
+          <h3 className='underline font-semibold'>• Technocratos</h3>
+          <p>"Join us for Technocratos, an electrifying event filled with dancing, singing, and an array of exciting performances!"</p>
+        </VerticalTimelineElement>
+        <VerticalTimelineElement
+          date="16 December 2024"
+          icon={<span className="timeline-icon">📲</span>}
+          position="right"
+        >
+          <h3 className='underline font-semibold'>• Framefiesta / Multimedia Presentation</h3>
+          <p>"Unleash your creativity with stunning visuals at Framefiesta, the ultimate multimedia presentation competition!"</p>
+        </VerticalTimelineElement>
+        <VerticalTimelineElement
+          date="19 January 2025"
+          icon={<span className="timeline-icon">🎙️</span>}
+          position="left"
+        >
+          <h3 className='underline font-semibold'>• Expert Talk</h3>
+          <p>"Gain insights from industry leaders at our Expert Talk event, hosted by us"</p>
+        </VerticalTimelineElement>
+        <VerticalTimelineElement
+          date="18 February 2025"
+          icon={<span className="timeline-icon">🎮</span>}
+          position="right"
+        >
+          <h3 className='underline font-semibold'>• Tech Meme War/ Gaming competition</h3>
+          <p>"Gear up for the ultimate showdown of creativity and skill in our Tech Meme War and Gaming Competition!"</p>
+        </VerticalTimelineElement>
+        <VerticalTimelineElement
+          date="9 March 2025"
+          icon={<span className="timeline-icon">👩‍💻</span>}
+          position="left"
+        >
+          <h3 className='underline font-semibold'>• Blind Coding / Code The Canva</h3>
+          <p>"Challenge your coding instincts in our thrilling Blind Coding / Code The Canva event, where precision meets creativity!"</p>
+        </VerticalTimelineElement>
+        <VerticalTimelineElement
+          date="8 April 2025"
           icon={<span className="timeline-icon">🏆</span>}
-          position="left"
-        >
-          <h3>Event Title 3</h3>
-          <p>Description for event 3.</p>
-          <img src="image3.jpg" alt="Event 3" className="event-image" />
-        </VerticalTimelineElement>
-        <VerticalTimelineElement
-          date="2024-04-01"
-          icon={<span className="timeline-icon">🌟</span>}
           position="right"
         >
-          <h3>Event Title 4</h3>
-          <p>Description for event 4.</p>
-          <img src="image4.jpg" alt="Event 4" className="event-image" />
+          <h3 className='underline font-semibold'>• Idea-thon / Code-Sprint & Prize Distribution</h3>
+          <p>"Unleash innovation in our Idea-thon and Code-Sprint, followed by an exciting Prize Distribution ceremony!"</p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
-          date="2024-05-01"
-          icon={<span className="timeline-icon">🎈</span>}
+          date="12 May 2025"
+          icon={<span className="timeline-icon">👨‍💼</span>}
           position="left"
         >
-          <h3>Event Title 5</h3>
-          <p>Description for event 5.</p>
-          <img src="image5.jpg" alt="Event 5" className="event-image" />
+          <h3 className='underline font-semibold'>• Formal Event</h3>
+          <p>"Join us for an elegant evening of networking, recognition, and learnings at our formal events!"</p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
-          date="2024-06-01"
-          icon={<span className="timeline-icon">🎤</span>}
+          date="15 June 2025"
+          icon={<span className="timeline-icon">🧑‍💻</span>}
           position="right"
         >
-          <h3>Event Title 6</h3>
-          <p>Description for event 6.</p>
-          <img src="image6.jpg" alt="Event 6" className="event-image" />
+          <h3 className='underline font-semibold'>• ByteBurst</h3>
+          <p>"Showcase your skills in our Web Development Competition, where creativity meets coding!"</p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
-          date="2024-07-01"
-          icon={<span className="timeline-icon">💡</span>}
+          date="20 July 2025"
+          icon={<span className="timeline-icon">🤖</span>}
           position="left"
         >
-          <h3>Event Title 7</h3>
-          <p>Description for event 7.</p>
-          <img src="image7.jpg" alt="Event 7" className="event-image" />
+          <h3 className='underline font-semibold'>• Programming Workshop</h3>
+          <p>"Enhance your coding skills at our Programming Workshop, designed for all levels of enthusiasts!"</p>
         </VerticalTimelineElement>
         <VerticalTimelineElement
-          date="2024-08-01"
-          icon={<span className="timeline-icon">🌍</span>}
+          date="26 August 2025"
+          icon={<span className="timeline-icon">♟️</span>}
           position="right"
         >
-          <h3>Event Title 8</h3>
-          <p>Description for event 8.</p>
-          <img src="image8.jpg" alt="Event 8" className="event-image" />
+          <h3 className='underline font-semibold'>• Battle Of Minds(Chess)</h3>
+          <p>"Engage in strategic showdowns at the Battle of Minds Chess competition, where every move counts!"</p>
         </VerticalTimelineElement>
       </VerticalTimeline>
     </div>
