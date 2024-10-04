@@ -2,6 +2,7 @@ import React from 'react'
 import CsseLeftSide from '../../SocietyLeftPage/CsseLeftSide'
 import Mid from '../../SocietyMidPart/Mid'
 import SocietyRightSide from '../../SocietyRightSide/SocietyRightSide'
+import Bottom from '../Bottom/Bottom'
 
 const CssePage = () => {
   return (
@@ -13,6 +14,7 @@ const CssePage = () => {
         <div className='w-2/3 bg-white'><Mid/></div>
         <div className='w-1/6 h-full'><SocietyRightSide/> </div>
       </div>
+      <Bottom/>
     </>
   )
 }

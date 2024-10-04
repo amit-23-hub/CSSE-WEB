@@ -14,9 +14,9 @@ const Hero = () => {
             <div className='h-35 bg-slate-950'>
                 <Navbar />
             </div>
-            <div className='bg-slate-950 relative'> {/* Set relative positioning for the parent */}
+            <div className='bg-slate-950 relative'> 
                 <Particle />
-                <div className="relative z-10"> {/* Ensure content is above particles */}
+                <div className="relative z-10"> 
                     <ImageSlider />
                     <SliderInfo />
                     <HomeContent className="overflow-hidden" />

@@ -4,7 +4,7 @@ import FaqComponent from "../FAQ/Faqs";
 import LOGOCSSE from '../../assets/LOGOCSSE.png'
 import styles from './HomeContent.module.css';
 import Gallery from "../triCard/triCard";
-
+import ReactPlayer from 'react-player'
 const Section = () => {
   return (
     <div className={styles.container}>
@@ -20,12 +20,12 @@ const Section = () => {
   <path d="M0 100 C 20 0 50 0 100 100 Z" />
 </svg>
 
-<section className="col2 color ss-style-curvedown overflow-hidden flex flex-col-reverse md:flex-row items-center justify-between p-8">
+<section className="col2 color ss-style-curvedown overflow-hidden flex flex-col-reverse md:flex-row items-center justify-between p-8 bg-black">
 <div className="w-full md:w-1/2 flex justify-center md:justify-end mb-6 md:mb-0">
     <div className="logo-div relative overflow-hidden hover:scale-110 transition-transform duration-300 ease-in-out mr-0 md:mr-60">
       <img
         src={LOGOCSSE}
-        alt="Hexagonal Image"
+        alt="society logo"
         className="w-60 h-70 md:w-70 md:h-70 object-cover"
       />
     </div>
@@ -65,19 +65,20 @@ const Section = () => {
 <svg id="curveupcolor" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewBox="0 0 100 100" preserveAspectRatio="none">
         <path d="M0 100 C 20 0 50 0 100 100 Z" />
       </svg>
-      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between">
+      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between bg-black">
+        
+        <div className="md:w-1/2 w-full p-4">
+          <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
+          <p className="text-lg">
+            Our vision is to empower individuals and organizations by providing high-quality services that foster growth, innovation, and sustainability. We aim to be leaders in our field, setting benchmarks in excellence and contributing positively to society.
+          </p>
+        </div>
         <div className="md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
           <img 
             src={edTech} 
             alt="Vision" 
             className="w-full h-auto object-cover rounded-lg shadow-lg"
           />
-        </div>
-        <div className="md:w-1/2 w-full p-4">
-          <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
-          <p className="text-lg">
-            Our vision is to empower individuals and organizations by providing high-quality services that foster growth, innovation, and sustainability. We aim to be leaders in our field, setting benchmarks in excellence and contributing positively to society.
-          </p>
         </div>
   
       </section>
@@ -93,29 +94,13 @@ const Section = () => {
   <path d="M0 0 C 50 100 80 100 100 0 Z" />
 </svg>
 
-      <svg
-        id="curvedowncolor"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        width="100%"
-        height="100"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-      >
-        <path d="M0 0 C 50 100 80 100 100 0 Z" />
+<svg id="curveupcolor" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path d="M0 100 C 20 0 50 0 100 100 Z" />
       </svg>
 
-      <svg
-        id="curvedowncolor"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        width="100%"
-        height="100"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-      >
-        <path d="M0 0 C 50 100 80 100 100 0 Z" />
-      </svg>
+      <section className={`${styles.col3} ${styles.ssStyleDoubleDiagonal} pt-3 pb-5`}>
+     
+      </section>
 
       <section className={`${styles.col3} ${styles.ssStyleDoubleDiagonal} pt-3 pb-5`}>
         <Gallery/>

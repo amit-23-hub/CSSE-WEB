@@ -6,7 +6,7 @@ import { FaHome } from "react-icons/fa";
 const Navbar = () => {
   return (
     <>
-      <div className="h-16">
+      <div className="h-16  bg-slate-950">
         <ul className="flex justify-end font-bold">
           <li className="p-4 cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
             

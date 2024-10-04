@@ -20,11 +20,9 @@ const Mid = () => {
                 <div className='flex'>
                     <span>Computer Society of Software Engineering</span>
                 </div>
+                
                 <div className='flex'>
-                    <span>Collage Name MMMUT</span>
-                </div>
-                <div className='flex'>
-                    <span>Rating</span>
+                    
                     <span className='flex'> <FcRating /> <FcRating />  <FcRating /> <FcRating /></span>
                 </div>
                 </div>
@@ -35,7 +33,6 @@ const Mid = () => {
           height='100%' controls />
         </div>
     </div>
-    <Nav/>
     
     </>
   )

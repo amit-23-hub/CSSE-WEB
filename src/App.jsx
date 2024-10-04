@@ -16,8 +16,6 @@ function App() {
         <Route path='/' element={<Hero />} />
         
         <Route path='/csse' element={<CssePage />} />
-        {/* <Route path='/showSo' element={<SocietyShowCard/>}/> */}
-        {/* <Route path='/infoform' element={<InfoForm/>}/> */}
         <Route path='/members' element={<MembersPages />} />
        <Route path='/events' element = {<Event/>} />
         
