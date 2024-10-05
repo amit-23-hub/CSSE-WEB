@@ -71,20 +71,21 @@ const Section = () => {
   <path d="M0 100 C 20 0 50 0 100 100 Z" />
 </svg>
 
-<section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between bg-black">
+<section className="col2 color ss-style-curvedown overflow-hidden flex flex-col-reverse md:flex-row items-center justify-between p-8 bg-black">
   <div className="md:w-1/2 w-full p-4">
     <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
-    <p className="text-lg">
+    <p className="text-lg ml-10 text-left">
       Our vision is to empower individuals and organizations by providing high-quality services that foster growth, innovation, and sustainability. We aim to be leaders in our field, setting benchmarks in excellence and contributing positively to society.
     </p>
   </div>
-  <div className="md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
-    <img 
-      src={edTech} 
-      alt="Vision" 
-      className="w-80 h-auto object-cover rounded-full shadow-lg"
-    />
-  </div>
+  <div className="md:w-1/2 w-full p-4 ml-auto hover:scale-105 transition-transform duration-300 ease-in-out flex justify-end">
+  <img 
+    src={edTech} 
+    alt="Vision" 
+    className="w-80 h-auto object-cover rounded-full shadow-lg"
+  />
+</div>
+
 </section>
 
 <svg
@@ -102,18 +103,8 @@ const Section = () => {
 <svg id="curveupcolor" xmlns="http://www.w3.org/2000/svg" version="1.1" width="100%" height="100" viewBox="0 0 100 100" preserveAspectRatio="none">
         <path d="M0 100 C 20 0 50 0 100 100 Z" />
       </svg>
-      <svg
-        id="curveupcolor"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        width="100%"
-        height="100"
-        viewBox="0 0 100 100"
-        preserveAspectRatio="none"
-      >
-        <path d="M0 100 C 20 0 50 0 100 100 Z" />
-      </svg>
-      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between">
+     
+      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between bg-black">
         <div className="flex justify-center md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
           <img 
             src={join} 
@@ -155,14 +146,8 @@ const Section = () => {
       >
         <path d="M0 100 C 20 0 50 0 100 100 Z" />
       </svg>
-      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between">
-        <div className="flex justify-center md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
-          <img 
-            src={impact} 
-            alt="Vision"
-            className="w-60 h-auto object-cover rounded-full shadow-lg"
-          />
-        </div>
+      <section className="color overflow-hidden flex flex-col md:flex-row items-center justify-between bg-black">
+        
         <div className="md:w-1/2 w-full p-4">
           <h2 className="text-2xl font-bold mb-4">Community Impact</h2>
           <p className="text-lg text-left">
@@ -170,6 +155,13 @@ const Section = () => {
           ▪ The society organizes activities that not only benefit students but also contribute to the broader social good.<br/>
           ▪ Through events that encourage mutual cooperation and bonding, the society builds a strong, supportive network among students, creating a lasting impact on both the individual and community levels.<br/>
           </p>
+        </div>
+        <div className="flex justify-center md:w-1/2 w-full p-4  hover:scale-105 transition-transform duration-300 ease-in-out">
+          <img 
+            src={impact} 
+            alt="Vision"
+            className="w-60 h-auto object-cover rounded-full shadow-lg"
+          />
         </div>
   
       </section>

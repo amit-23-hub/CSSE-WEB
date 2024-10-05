@@ -7,8 +7,11 @@ import LOGOCSSE from '../assets/LOGOCSSE.png'
 const Navbar = () => {
   return (
     <>
-      <div className="h-16  bg-slate-950">
-        <ul className="flex justify-end font-bold">
+      <div className=" flex justify-between bg-slate-950">
+        <div>
+          <img src={LOGOCSSE} alt='logo'className="h-20 ml-5 mt-3"/>
+        </div>
+        <ul className="flex justify-end font-bold mt-3">
           <li className="p-4 cursor-pointer text-zinc-400 flex flex-col items-center gap-2 relative blink">
             
             <FaHome className="text-3xl animate-bounce blink" />{" "}
