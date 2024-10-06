@@ -1,5 +1,9 @@
 import React from 'react';
 import styles from './EventHead.module.css'; // Import the CSS module
+import img1 from '../../../assets/planet1.png';
+import img2 from '../../../assets/planet2.png';
+import img3 from '../../../assets/poster-1.png'; // Corrected file name
+import img4 from '../../../assets/city1.png';
 
 const HeroContent = () => {
   const headlines = [
@@ -9,12 +13,7 @@ const HeroContent = () => {
     'Each one of them pretty',
   ];
 
-  const backgroundImages = [
-    'url(/src/assets/planet1.png)',
-    'url(/src/assets/planet2.png)',
-    'url(/src/assets/poster-1.png)',
-    'url(/src/assets/city1.png)'
-  ];
+  const backgroundImages = [img1, img2, img3, img4];
 
   return (
     <div>
@@ -23,7 +22,7 @@ const HeroContent = () => {
           <div className={styles.heroInner} id={`section-${index}`}>
             <figure
               className={styles.figure}
-              style={{ backgroundImage: backgroundImages[index] }}
+              style={{ backgroundImage: `url(${backgroundImages[index]})` }} // Fixed backgroundImage syntax
             ></figure>
             <h2 className={styles.heroTitle}>{headline}</h2>
           </div>
