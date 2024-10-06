@@ -39,8 +39,8 @@ const Bottom = () => {
           <nav>
             <ul>
               <li>
-                <Link to='/members' aria-label="Team Members">
-                  <span className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1 hover:scale-110 transition-transform duration-300'>Team</span>
+                <Link to='/devTeam' aria-label="Team Members">
+                  <span className='cursor-pointer text-zinc-400 flex hover:bg-slate-800 hover:text-zinc-200 font-medium p-1 hover:scale-110 transition-transform duration-300'>Developer</span>
                 </Link>
               </li>
               <li>
