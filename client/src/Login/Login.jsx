@@ -66,11 +66,11 @@ const Login = () => {
 
         if (result.success) {
           alert(`Welcome back, ${result.user.name}!`);
-          // Redirect admin to dashboard, user to profile
+          // Redirect admin to dashboard, user to home page
           if (result.user.role === 'admin') {
             navigate('/admin/dashboard');
           } else {
-            navigate('/profile');
+            navigate('/');
           }
         } else {
           setError(result.error || 'Login failed');
@@ -86,11 +86,11 @@ const Login = () => {
 
         if (result.success) {
           alert(`Registration successful! Welcome, ${result.user.name}!`);
-          // Redirect admin to dashboard, user to profile
+          // Redirect admin to dashboard, user to home page
           if (result.user.role === 'admin') {
             navigate('/admin/dashboard');
           } else {
-            navigate('/profile');
+            navigate('/');
           }
         } else {
           setError(result.error || 'Registration failed');
