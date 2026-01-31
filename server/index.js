@@ -7,7 +7,6 @@ require('dotenv').config();
 const connectDB = require('./config/database');
 const authRoutes = require('./routes/authRoutes');
 const eventRoutes = require('./routes/eventRoutes');
-const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -28,13 +27,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/events', eventRoutes);
-app.use('/api/admin', adminRoutes);
+app.use('/api/registrations', require('./routes/registrationRoutes'));
 
 // Health check route
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'Server is running', 
-    timestamp: new Date() 
+  res.json({
+    status: 'Server is running',
+    timestamp: new Date()
   });
 });
 

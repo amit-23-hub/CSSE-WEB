@@ -1,44 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { eventAPI } from '../../../utils/api';
 
-const EventRegistrationModal = ({ isOpen, onClose, eventName }) => {
-  const [event, setEvent] = useState('');
-  const [numberOfMembers, setNumberOfMembers] = useState('');
-  const [teamMembers, setTeamMembers] = useState([]);
+const EventRegistrationModal = ({ isOpen, onClose, event, user }) => {
+  const [subEventId, setSubEventId] = useState('');
+  const [numberOfMembers, setNumberOfMembers] = useState(1);
+  const [participants, setParticipants] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Initialize team members array when number of members changes (only for > 1 members)
+  // Reset form when event changes or modal opens
   useEffect(() => {
-    const numMembers = parseInt(numberOfMembers) || 0;
-    if (numMembers > 1) {
-      setTeamMembers((prevMembers) => {
-        const newMembers = Array.from({ length: numMembers }, (_, index) => {
-          // Keep existing data if available, otherwise create new member object
-          return prevMembers[index] || { name: '', branch: '', mobile: '' };
-        });
-        return newMembers;
-      });
-    } else {
-      setTeamMembers([]);
+    if (isOpen && event) {
+      setSubEventId('');
+      setNumberOfMembers(1);
+      // Initialize first participant with logged-in user details
+      if (user) {
+        setParticipants([{
+          name: user.name || '',
+          email: user.email || '',
+          year: user.year || '',
+          branch: user.branch || '',
+          phone: user.phone || ''
+        }]);
+      } else {
+        setParticipants([]);
+      }
+      setError('');
     }
+  }, [isOpen, event, user]);
+
+  // Handle number of members change
+  useEffect(() => {
+    const num = parseInt(numberOfMembers) || 1;
+    setParticipants(prev => {
+      const newParticipants = [...prev];
+      if (newParticipants.length < num) {
+        // Add new empty participants
+        for (let i = newParticipants.length; i < num; i++) {
+          newParticipants.push({ name: '', email: '', year: '', branch: '', phone: '' });
+        }
+      } else if (newParticipants.length > num) {
+        // Remove excess
+        return newParticipants.slice(0, num);
+      }
+      return newParticipants;
+    });
   }, [numberOfMembers]);
 
-  const handleEventChange = (e) => {
-    setEvent(e.target.value);
-  };
-
-  const handleNumberOfMembersChange = (e) => {
-    setNumberOfMembers(e.target.value);
-  };
-
-  const handleMemberChange = (index, field, value) => {
-    const updatedMembers = [...teamMembers];
-    updatedMembers[index] = {
-      ...updatedMembers[index],
-      [field]: value,
-    };
-    setTeamMembers(updatedMembers);
+  const handleParticipantChange = (index, field, value) => {
+    const newParticipants = [...participants];
+    newParticipants[index] = { ...newParticipants[index], [field]: value };
+    setParticipants(newParticipants);
   };
 
   const handleSubmit = async (e) => {
@@ -47,57 +59,62 @@ const EventRegistrationModal = ({ isOpen, onClose, eventName }) => {
     setError('');
 
     try {
-      const formData = {
-        event,
-        numberOfMembers: parseInt(numberOfMembers),
-        teamMembers: parseInt(numberOfMembers) === 1 ? [] : teamMembers,
+      // Validate required fields for all participants
+      for (const p of participants) {
+        if (!p.name || !p.email || !p.branch || !p.year || !p.phone) {
+          setError('All fields are required for all participants');
+          setLoading(false);
+          return;
+        }
+      }
+
+      const payload = {
+        eventId: event._id,
+        subEventId: subEventId || null,
+        participants
       };
 
-      const response = await eventAPI.register(formData);
-      
+      const response = await eventAPI.register(payload);
+
       if (response.data.success) {
         alert('Event registration successful!');
-        // Reset form
-        setEvent('');
-        setNumberOfMembers('');
-        setTeamMembers([]);
         onClose();
       }
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Registration failed. Please try again.';
       setError(errorMessage);
-      console.error('Registration Error:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleClose = () => {
-    // Reset form when closing
-    setEvent('');
-    setNumberOfMembers('');
-    setTeamMembers([]);
-    setError('');
-    setLoading(false);
-    onClose();
-  };
+  if (!isOpen || !event) return null;
 
-  if (!isOpen) return null;
+  // Determine subEvent selection options
+  const subEvents = event.subEvents || [];
+
+  // Determine max participants based on selected subEvent or default
+  const selectedSubEvent = subEvents.find(se => se._id === subEventId);
+  // Default max to 10 if not specified, or 1 if solo/no subevent logic (but here we are in modal so likely team or subevent)
+  // If event has subevents, we must select one usually?
+  // Let's assume if hasSubEvents is true, subEvent selection is mandatory unless logic says otherwise.
+  // The schema says subEvent is optional in Registration, but logically for "Technokratos" user picks a sub-event.
+
+  const currentMaxParticipants = selectedSubEvent ? (selectedSubEvent.maxParticipants || 10) : (event.maxParticipants || 10);
+  const currentMinParticipants = selectedSubEvent ? (selectedSubEvent.minParticipants || 1) : (event.minParticipants || 1);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
       <div className="relative w-full max-w-2xl max-h-[90vh] bg-[#1e293b] rounded-2xl shadow-xl p-8 overflow-y-auto">
-        {/* Close button */}
         <button
-          onClick={handleClose}
+          onClick={onClose}
           className="absolute top-4 right-4 text-white hover:text-cyan-400 text-2xl font-bold transition-colors"
-          aria-label="Close"
         >
           ×
         </button>
 
         <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-6">
-          Event Registration
+          {event.name} Registration
         </h2>
 
         {error && (
@@ -107,97 +124,106 @@ const EventRegistrationModal = ({ isOpen, onClose, eventName }) => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Select Event */}
-          <div className="flex flex-col">
-            <label className="text-white mb-1">Select Event</label>
-            <select
-              name="event"
-              value={event}
-              onChange={handleEventChange}
-              className="bg-[#334155] text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-              required
-            >
-              <option value="">Choose</option>
-              {eventName && eventName.toLowerCase().includes('technokratos') && (
-                <optgroup label="Technokratos">
-                  <option value="technocratos_dance">• Dance (Solo)</option>
-                  <option value="technocratos_dance-g">• Dance (Group)</option>
-                  <option value="technocratos_singing">• Singing (Solo)</option>
-                  <option value="technocratos_singing-g">• Singing (Group)</option>
-                  <option value="technocratos_openmic">• Open Mic</option>
-                  <option value="technocratos_drama">• Drama</option>
-                  <option value="technocratos_craft">• Craft making</option>
-                  <option value="technocratos_paperdance">• Paper dance</option>
-                  <option value="technocratos_fashion">• Fashion show</option>
-                  <option value="technocratos_sketching">• Sketching</option>
-                  <option value="technocratos_mehendi">• Mehendi</option>
-                </optgroup>
-              )}
-              {eventName && eventName.toLowerCase().includes('formal') && (
-                <optgroup label="Formal Events">
-                  <option value="formal_technical_presentation">• Technical presentation</option>
-                  <option value="formal_debate">• Debate</option>
-                  <option value="formal_extempore">• Extempore</option>
-                  <option value="formal_group_discussion">• Group Discussion</option>
-                  <option value="formal_webwonders">• WebWonders</option>
-                  <option value="formal_creative_writing">• Creative Writing</option>
-                  <option value="formal_hackthon_byteburst">• Hackthon-Byteburst</option>
-                  <option value="formal_codebuggers">• Codebuggers</option>
-                </optgroup>
-              )}
-            </select>
-          </div>
+          {/* SubEvent Selection */}
+          {event.hasSubEvents && (
+            <div className="flex flex-col">
+              <label className="text-white mb-1">Select Sub-Event</label>
+              <select
+                value={subEventId}
+                onChange={(e) => setSubEventId(e.target.value)}
+                className="bg-[#334155] text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                required
+              >
+                <option value="">Choose Sub-Event</option>
+                {subEvents.map(se => (
+                  <option key={se._id} value={se._id}>{se.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
 
           {/* Number of Members */}
           <div className="flex flex-col">
-            <label className="text-white mb-1">Number of Members</label>
+            <label className="text-white mb-1">Number of Participants</label>
             <select
-              name="numberOfMembers"
               value={numberOfMembers}
-              onChange={handleNumberOfMembersChange}
+              onChange={(e) => setNumberOfMembers(parseInt(e.target.value))}
               className="bg-[#334155] text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
               required
             >
-              <option value="">Select</option>
-              {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => (
+              {Array.from({ length: currentMaxParticipants - currentMinParticipants + 1 }, (_, i) => i + currentMinParticipants).map((num) => (
                 <option key={num} value={num}>
-                  {num} {num === 1 ? 'Member' : 'Members'}
+                  {num} {num === 1 ? 'Participant' : 'Participants'}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Team Member Details - Only show when more than 1 member */}
-          {parseInt(numberOfMembers) > 1 && teamMembers.length > 0 && (
-            <div className="space-y-6">
-              <h3 className="text-xl font-semibold text-white border-b border-gray-600 pb-2">
-                Team Member Details
-              </h3>
-              {teamMembers.map((member, index) => (
-                <div key={index} className="bg-[#334155] p-4 rounded-lg space-y-4">
-                  <h4 className="text-cyan-400 font-medium mb-3">
-                    Member {index + 1}
-                  </h4>
+          {/* Participants Details */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-white border-b border-gray-600 pb-2">
+              Participant Details
+            </h3>
+            {participants.map((member, index) => (
+              <div key={index} className="bg-[#334155] p-4 rounded-lg space-y-4">
+                <h4 className="text-cyan-400 font-medium mb-3">
+                  {index === 0 ? "Team Leader (You)" : `Member ${index + 1}`}
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
                   <div className="flex flex-col">
-                    <label className="text-white mb-1">Name</label>
+                    <label className="text-white mb-1 text-sm">Name</label>
                     <input
                       type="text"
-                      placeholder="Enter full name"
                       value={member.name}
-                      onChange={(e) => handleMemberChange(index, 'name', e.target.value)}
-                      className="bg-[#475569] text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      onChange={(e) => handleParticipantChange(index, 'name', e.target.value)}
+                      className="bg-[#475569] text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      required
+                      disabled={index === 0} // Lock leader name? Optional, maybe allow edit if needed but usually leader is fixed
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-white mb-1 text-sm">Email</label>
+                    <input
+                      type="email"
+                      value={member.email}
+                      onChange={(e) => handleParticipantChange(index, 'email', e.target.value)}
+                      className="bg-[#475569] text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      required
+                      disabled={index === 0}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-white mb-1 text-sm">Phone</label>
+                    <input
+                      type="tel"
+                      value={member.phone}
+                      onChange={(e) => handleParticipantChange(index, 'phone', e.target.value)}
+                      className="bg-[#475569] text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
                       required
                     />
                   </div>
                   <div className="flex flex-col">
-                    <label className="text-white mb-1">Branch</label>
+                    <label className="text-white mb-1 text-sm">Year</label>
+                    <input
+                      type="text"
+                      value={member.year}
+                      onChange={(e) => handleParticipantChange(index, 'year', e.target.value)}
+                      className="bg-[#475569] text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      required
+                      disabled={index === 0}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-white mb-1 text-sm">Branch</label>
                     <select
                       value={member.branch}
-                      onChange={(e) => handleMemberChange(index, 'branch', e.target.value)}
-                      className="bg-[#475569] text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                      onChange={(e) => handleParticipantChange(index, 'branch', e.target.value)}
+                      className="bg-[#475569] text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
                       required
+                      disabled={index === 0}
                     >
-                      <option value="">Select Branch</option>
+                      <option value="">Select</option>
                       <option value="IT">IT</option>
                       <option value="CSE">CSE</option>
                       <option value="ECE">ECE</option>
@@ -207,35 +233,15 @@ const EventRegistrationModal = ({ isOpen, onClose, eventName }) => {
                       <option value="MCA">MCA</option>
                     </select>
                   </div>
-                  <div className="flex flex-col">
-                    <label className="text-white mb-1">Mobile Number</label>
-                    <input
-                      type="tel"
-                      placeholder="9876543210"
-                      value={member.mobile}
-                      onChange={(e) => handleMemberChange(index, 'mobile', e.target.value)}
-                      className="bg-[#475569] text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-                      required
-                    />
-                  </div>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {/* Info message when 1 member is selected */}
-          {parseInt(numberOfMembers) === 1 && (
-            <div className="bg-cyan-500/20 border border-cyan-500/50 rounded-lg p-4">
-              <p className="text-cyan-300 text-sm">
-                Your profile details will be used for registration.
-              </p>
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
 
           <div className="flex gap-4 pt-4">
             <button
               type="button"
-              onClick={handleClose}
+              onClick={onClose}
               className="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-semibold py-2 rounded-lg transition-all duration-300"
             >
               Cancel
@@ -255,4 +261,3 @@ const EventRegistrationModal = ({ isOpen, onClose, eventName }) => {
 };
 
 export default EventRegistrationModal;
-

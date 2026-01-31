@@ -22,14 +22,28 @@ export const authAPI = {
 };
 
 export const eventAPI = {
-  register: (eventData) => api.post('/events/register', eventData),
-  getMyRegistrations: () => api.get('/events/my-registrations'),
-  getRegistrationById: (id) => api.get(`/events/${id}`)
+  getAllEvents: () => api.get('/events'),
+  getEventById: (id) => api.get(`/events/${id}`),
+  register: (registrationData) => api.post('/registrations', registrationData),
+  getMyRegistrations: () => api.get('/registrations/my'),
+  getRegistrationById: (id) => api.get(`/registrations/${id}`)
 };
 
 export const adminAPI = {
-  getAllEvents: () => api.get('/admin/events'),
-  getEventRegistrations: (eventName) => api.get(`/admin/registrations?eventName=${encodeURIComponent(eventName)}`)
+  getAllEvents: () => api.get('/events'), // Public endpoint is fine for list, or specific admin one if needed
+  createEvent: (eventData) => api.post('/events', eventData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  updateEvent: (id, eventData) => api.put(`/events/${id}`, eventData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  deleteEvent: (id) => api.delete(`/events/${id}`),
+
+  createSubEvent: (subEventData) => api.post('/events/sub-events', subEventData),
+  updateSubEvent: (id, subEventData) => api.put(`/events/sub-events/${id}`, subEventData),
+  deleteSubEvent: (id) => api.delete(`/events/sub-events/${id}`),
+
+  getEventRegistrations: (eventId) => api.get(`/registrations/event/${eventId}`)
 };
 
 export default api;

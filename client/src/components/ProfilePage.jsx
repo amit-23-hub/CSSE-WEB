@@ -9,14 +9,15 @@ const ProfilePage = () => {
   const [error, setError] = useState('');
   const [file, setFile] = useState(null);
   const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({ name: '', year: '', branch: '' });
+  const [form, setForm] = useState({ name: '', year: '', branch: '', phone: '' });
 
   useEffect(() => {
     if (contextUser) {
-      setForm({ 
-        name: contextUser.name || '', 
-        year: contextUser.year || '', 
-        branch: contextUser.branch || '' 
+      setForm({
+        name: contextUser.name || '',
+        year: contextUser.year || '',
+        branch: contextUser.branch || '',
+        phone: contextUser.phone || ''
       });
     }
   }, [contextUser]);
@@ -41,6 +42,7 @@ const ProfilePage = () => {
       fd.append('name', form.name);
       fd.append('year', form.year);
       fd.append('branch', form.branch);
+      fd.append('phone', form.phone);
 
       const res = await authAPI.updateProfile(fd);
       if (res.data.success) {
@@ -66,11 +68,12 @@ const ProfilePage = () => {
     <div className="min-h-screen p-6 bg-slate-900 text-white">
       <div className="max-w-2xl mx-auto bg-slate-800 p-6 rounded-lg border border-slate-700">
         <div className="flex items-center gap-4">
-          <img src={contextUser.profilePic || '/'} onError={(e)=>{e.target.src='https://via.placeholder.com/120'}} alt="profile" className="w-28 h-28 rounded-full object-cover border" />
+          <img src={contextUser.profilePic || '/'} onError={(e) => { e.target.src = 'https://via.placeholder.com/120' }} alt="profile" className="w-28 h-28 rounded-full object-cover border" />
           <div>
             <h2 className="text-2xl font-bold">{contextUser.name}</h2>
             <p className="text-zinc-400">{contextUser.email}</p>
             <p className="text-zinc-400">{contextUser.year} • {contextUser.branch}</p>
+            <p className="text-zinc-400 font-medium">Phone: {contextUser.phone || 'N/A'}</p>
             <p className="text-zinc-400 text-sm mt-1">ID: {contextUser._id || contextUser.id}</p>
             {contextUser.createdAt && <p className="text-zinc-400 text-sm">Joined: {new Date(contextUser.createdAt).toLocaleString()}</p>}
           </div>
@@ -78,7 +81,7 @@ const ProfilePage = () => {
 
         <div className="mt-6">
           {!editing ? (
-            <button onClick={()=>setEditing(true)} className="bg-cyan-500 px-4 py-2 rounded">Edit Profile</button>
+            <button onClick={() => setEditing(true)} className="bg-cyan-500 px-4 py-2 rounded">Edit Profile</button>
           ) : (
             <form onSubmit={handleUpdate} className="space-y-4 mt-4">
               <div>
@@ -90,12 +93,16 @@ const ProfilePage = () => {
                 <input name="branch" value={form.branch} onChange={handleChange} className="bg-slate-800 p-2 rounded" placeholder="Branch" />
               </div>
               <div>
+                <label className="block text-zinc-300">Phone Number</label>
+                <input name="phone" value={form.phone} onChange={handleChange} className="w-full bg-slate-800 p-2 rounded" />
+              </div>
+              <div>
                 <label className="block text-zinc-300">Profile picture</label>
                 <input type="file" accept="image/*" onChange={handleFile} />
               </div>
               <div className="flex gap-2">
                 <button type="submit" className="bg-cyan-500 px-4 py-2 rounded">Save</button>
-                <button type="button" onClick={()=>setEditing(false)} className="bg-slate-700 px-4 py-2 rounded">Cancel</button>
+                <button type="button" onClick={() => setEditing(false)} className="bg-slate-700 px-4 py-2 rounded">Cancel</button>
               </div>
             </form>
           )}

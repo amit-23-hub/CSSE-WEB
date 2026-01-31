@@ -1,48 +1,52 @@
+// import React, { useState, useEffect } from 'react';
+// import { adminAPI } from '../utils/api';
+// import Navbar from '../Navbar/Navbar';
+// import Bottom from '../Pages/Bottom/Bottom';
+
 import React, { useState, useEffect } from 'react';
 import { adminAPI } from '../utils/api';
 import Navbar from '../Navbar/Navbar';
 import Bottom from '../Pages/Bottom/Bottom';
+import ManageEvents from './ManageEvents';
 
 const AdminDashboard = () => {
+  const [activeTab, setActiveTab] = useState('registrations'); // 'registrations' or 'events'
   const [events, setEvents] = useState([]);
-  const [selectedEvent, setSelectedEvent] = useState('');
+  const [selectedEventId, setSelectedEventId] = useState('');
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // Fetch events on mount to populate dropdown
   useEffect(() => {
     loadEvents();
-  }, []);
-
-  useEffect(() => {
-    if (selectedEvent) {
-      loadRegistrations(selectedEvent);
-    } else {
-      setRegistrations([]);
-    }
-  }, [selectedEvent]);
+  }, [activeTab]); // Reload when switching tabs to ensure freshness
 
   const loadEvents = async () => {
-    setLoading(true);
-    setError('');
     try {
       const response = await adminAPI.getAllEvents();
       if (response.data.success) {
         setEvents(response.data.events);
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to load events');
       console.error('Error loading events:', err);
-    } finally {
-      setLoading(false);
     }
   };
 
-  const loadRegistrations = async (eventName) => {
+  useEffect(() => {
+    if (selectedEventId && activeTab === 'registrations') {
+      loadRegistrations(selectedEventId);
+    } else {
+      setRegistrations([]);
+    }
+  }, [selectedEventId, activeTab]);
+
+
+  const loadRegistrations = async (eventId) => {
     setLoading(true);
     setError('');
     try {
-      const response = await adminAPI.getEventRegistrations(eventName);
+      const response = await adminAPI.getEventRegistrations(eventId);
       if (response.data.success) {
         setRegistrations(response.data.registrations);
       }
@@ -57,132 +61,142 @@ const AdminDashboard = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#0f172a] p-6">
+      <div className="min-h-screen bg-[#0f172a] p-6 text-white">
         <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-white mb-8">Admin Dashboard</h1>
-
-        {/* Event Selection */}
-        <div className="bg-[#1e293b] rounded-2xl shadow-xl p-6 mb-6">
-          <label className="block text-white text-lg font-semibold mb-4">
-            Select Event
-          </label>
-          <select
-            value={selectedEvent}
-            onChange={(e) => setSelectedEvent(e.target.value)}
-            className="w-full max-w-md bg-[#334155] text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
-          >
-            <option value="">-- Select an event --</option>
-            {events.map((event, index) => (
-              <option key={index} value={event}>
-                {event}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 mb-6 text-red-400">
-            {error}
+          <div className="flex justify-between items-center mb-8 border-b border-gray-700 pb-4">
+            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setActiveTab('registrations')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'registrations' ? 'bg-cyan-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'}`}
+              >
+                View Registrations
+              </button>
+              <button
+                onClick={() => setActiveTab('events')}
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${activeTab === 'events' ? 'bg-cyan-600 text-white' : 'bg-slate-700 text-gray-300 hover:bg-slate-600'}`}
+              >
+                Manage Events
+              </button>
+            </div>
           </div>
-        )}
 
-        {/* Registrations List */}
-        {selectedEvent && (
-          <div className="bg-[#1e293b] rounded-2xl shadow-xl p-6">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              Registrations for: {selectedEvent}
-              <span className="text-lg font-normal text-zinc-400 ml-2">
-                ({registrations.length} {registrations.length === 1 ? 'registration' : 'registrations'})
-              </span>
-            </h2>
+          {/* EVENT MANAGEMENT VIEW */}
+          {activeTab === 'events' && (
+            <ManageEvents />
+          )}
 
-            {loading ? (
-              <div className="text-white text-center py-8">Loading...</div>
-            ) : registrations.length === 0 ? (
-              <div className="text-zinc-400 text-center py-8">
-                No registrations found for this event.
+          {/* REGISTRATIONS VIEW */}
+          {activeTab === 'registrations' && (
+            <div>
+              {/* Event Selection */}
+              <div className="bg-[#1e293b] rounded-2xl shadow-xl p-6 mb-6">
+                <label className="block text-white text-lg font-semibold mb-4">
+                  Select Event to View Registrations
+                </label>
+                <select
+                  value={selectedEventId}
+                  onChange={(e) => setSelectedEventId(e.target.value)}
+                  className="w-full max-w-md bg-[#334155] text-white px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                >
+                  <option value="">-- Select an event --</option>
+                  {events.map((event) => (
+                    <option key={event._id} value={event._id}>
+                      {event.name}
+                    </option>
+                  ))}
+                </select>
               </div>
-            ) : (
-              <div className="space-y-4">
-                {registrations.map((registration, index) => (
-                  <div
-                    key={registration._id}
-                    className="bg-[#334155] rounded-lg p-6 border border-[#475569]"
-                  >
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="text-xl font-semibold text-white mb-2">
-                          Registration #{index + 1}
-                        </h3>
-                        <p className="text-zinc-400 text-sm">
-                          Registered on: {new Date(registration.registrationDate).toLocaleString()}
-                        </p>
-                       
-                        <p className="text-zinc-400 text-sm mt-1">
-                          Number of Members: {registration.numberOfMembers}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-white font-semibold">
-                          {registration.registeredBy?.name || 'N/A'}
-                        </p>
-                        <p className="text-zinc-400 text-sm">
-                          {registration.registeredBy?.email || 'N/A'}
-                        </p>
-                      </div>
-                    </div>
 
-                    {/* Team Members */}
-                    <div className="mt-4 pt-4 border-t border-[#475569]">
-                      <h4 className="text-lg font-semibold text-white mb-3">
-                        Team Members:
-                      </h4>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {registration.teamMembers.map((member, memberIndex) => (
-                          <div
-                            key={memberIndex}
-                            className="bg-[#475569] rounded-lg p-4"
-                          >
-                            <p className="text-white font-semibold mb-2">
-                              {member.name}
-                            </p>
-                            <p className="text-zinc-300 text-sm">
-                              Branch: {member.branch}
-                            </p>
-                            {member.email && (
-                              <p className="text-zinc-300 text-sm">
-                                Email: {member.email}
+              {/* Error Message */}
+              {error && (
+                <div className="bg-red-500/20 border border-red-500 rounded-lg p-4 mb-6 text-red-400">
+                  {error}
+                </div>
+              )}
+
+              {/* Registrations List */}
+              {selectedEventId && (
+                <div className="bg-[#1e293b] rounded-2xl shadow-xl p-6">
+                  <h2 className="text-2xl font-bold text-white mb-4">
+                    Registrations
+                    <span className="text-lg font-normal text-zinc-400 ml-2">
+                      ({registrations.length})
+                    </span>
+                  </h2>
+
+                  {loading ? (
+                    <div className="text-white text-center py-8">Loading...</div>
+                  ) : registrations.length === 0 ? (
+                    <div className="text-zinc-400 text-center py-8">
+                      No registrations found for this event.
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {registrations.map((registration, index) => (
+                        <div
+                          key={registration._id}
+                          className="bg-[#334155] rounded-lg p-6 border border-[#475569]"
+                        >
+                          <div className="flex justify-between items-start mb-4">
+                            <div>
+                              <h3 className="text-xl font-semibold text-white mb-2">
+                                Registration #{index + 1}
+                                {registration.subEvent && <span className="text-cyan-400 ml-2">({registration.subEvent.name})</span>}
+                              </h3>
+                              <p className="text-zinc-400 text-sm">
+                                Registered by: {registration.teamLeader?.name} ({registration.teamLeader?.email})
                               </p>
-                            )}
-                            {member.year && (
-                              <p className="text-zinc-300 text-sm">
-                                Year: {member.year}
+                              <p className="text-zinc-400 text-sm">
+                                Date: {new Date(registration.createdAt).toLocaleString()}
                               </p>
-                            )}
-                            {member.mobile && (
-                              <p className="text-zinc-300 text-sm">
-                                Mobile: {member.mobile}
-                              </p>
-                            )}
+                            </div>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
 
-        {!selectedEvent && !loading && (
-          <div className="bg-[#1e293b] rounded-2xl shadow-xl p-6 text-center">
-            <p className="text-zinc-400 text-lg">
-              Please select an event to view registrations.
-            </p>
-          </div>
-        )}
+                          {/* Participants Table */}
+                          <div className="mt-4 pt-4 border-t border-[#475569]">
+                            <h4 className="text-lg font-semibold text-white mb-3">
+                              Participants ({registration.participants?.length || 0})
+                            </h4>
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left text-sm text-gray-300">
+                                <thead className="text-xs uppercase bg-slate-700 text-gray-200">
+                                  <tr>
+                                    <th className="px-4 py-2">Name</th>
+                                    <th className="px-4 py-2">Email</th>
+                                    <th className="px-4 py-2">Phone</th>
+                                    <th className="px-4 py-2">Branch / Year</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {registration.participants?.map((p, idx) => (
+                                    <tr key={idx} className="border-b border-slate-600 hover:bg-slate-700/50">
+                                      <td className="px-4 py-2 font-medium text-white">{p.name}</td>
+                                      <td className="px-4 py-2">{p.email}</td>
+                                      <td className="px-4 py-2">{p.phone}</td>
+                                      <td className="px-4 py-2">{p.branch} - {p.year}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {!selectedEventId && activeTab === 'registrations' && (
+                <div className="bg-[#1e293b] rounded-2xl shadow-xl p-12 text-center mt-6">
+                  <p className="text-zinc-400 text-lg">
+                    Please select an event from the dropdown to view its registrations.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <Bottom />

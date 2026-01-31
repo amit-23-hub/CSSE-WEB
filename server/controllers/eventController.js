@@ -1,167 +1,192 @@
-const EventRegistration = require('../models/EventRegistration');
-const User = require('../models/User');
+const Event = require('../models/Event');
+const SubEvent = require('../models/SubEvent');
 
-// Register for an event
-const registerEvent = async (req, res) => {
+// --- Event Controllers ---
+
+// Create a new event
+const createEvent = async (req, res) => {
   try {
-    const { event, numberOfMembers, teamMembers } = req.body;
-    const userId = req.user.userId;
+    const eventData = { ...req.body };
 
-    // Validate required fields
-    if (!event || !numberOfMembers) {
-      return res.status(400).json({
-        success: false,
-        message: 'Event name and number of members are required'
-      });
+    // Sanitize icon field: if it's an object (and not a file path string), remove it
+    if (typeof eventData.icon === 'object' && !req.file) {
+      delete eventData.icon;
     }
 
-    // Validate number of members
-    const numMembers = parseInt(numberOfMembers);
-    if (numMembers < 1 || numMembers > 10) {
-      return res.status(400).json({
-        success: false,
-        message: 'Number of members must be between 1 and 10'
-      });
-    }
+    console.log('--- Create Event Debug ---');
+    console.log('req.file:', req.file ? {
+      fieldname: req.file.fieldname,
+      originalname: req.file.originalname,
+      path: req.file.path
+    } : 'undefined');
+    console.log('req.body:', req.body);
 
-    // Get user details for single member registration
-    let finalTeamMembers = [];
-    if (numMembers === 1) {
-      // Fetch user details from profile
-      const user = await User.findById(userId);
-      if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: 'User not found'
-        });
-      }
-      // For single member, we'll store empty array as user info is in registeredBy
-      finalTeamMembers = [];
+    if (req.file) {
+      console.log('File uploaded to Cloudinary:', req.file.path);
+      eventData.icon = req.file.path; // Cloudinary URL
     } else {
-      // Validate team members array
-      if (!teamMembers || !Array.isArray(teamMembers) || teamMembers.length !== numMembers) {
-        return res.status(400).json({
-          success: false,
-          message: `Team members array must contain exactly ${numMembers} members`
-        });
-      }
-
-      // Validate each team member has required fields
-      for (let i = 0; i < teamMembers.length; i++) {
-        const member = teamMembers[i];
-        if (!member.name || !member.branch || !member.mobile) {
-          return res.status(400).json({
-            success: false,
-            message: `Team member ${i + 1} is missing required fields (name, branch, mobile)`
-          });
-        }
-      }
-
-      finalTeamMembers = teamMembers;
+      console.log('No file uploaded. req.body.icon:', req.body.icon);
     }
-
-    // Check if user has already registered for this event
-    const existingRegistration = await EventRegistration.findOne({
-      registeredBy: userId,
-      eventName: event
-    });
-
-    if (existingRegistration) {
-      return res.status(400).json({
-        success: false,
-        message: 'You have already registered for this event'
-      });
-    }
-
-    // Create event registration
-    const eventRegistration = new EventRegistration({
-      eventName: event,
-      numberOfMembers: numMembers,
-      teamMembers: finalTeamMembers,
-      registeredBy: userId
-    });
-
-    await eventRegistration.save();
-
-    // Populate registeredBy to return user details
-    await eventRegistration.populate('registeredBy', 'name email year branch');
-
-    res.status(201).json({
-      success: true,
-      message: 'Event registration successful',
-      registration: eventRegistration
-    });
-
+    const event = new Event(eventData);
+    await event.save();
+    res.status(201).json({ success: true, event });
   } catch (error) {
-    console.error('Event Registration Error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error during event registration',
-      error: error.message
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
-// Get all registrations for the logged-in user
-const getMyRegistrations = async (req, res) => {
+// Get all events (Public)
+const getAllEvents = async (req, res) => {
   try {
-    const userId = req.user.userId;
-
-    const registrations = await EventRegistration.find({ registeredBy: userId })
-      .populate('registeredBy', 'name email year branch')
-      .sort({ registrationDate: -1 });
-
-    res.status(200).json({
-      success: true,
-      registrations
-    });
-
+    const events = await Event.find()
+      .populate('subEvents')
+      .sort({ createdAt: -1 });
+    res.status(200).json({ success: true, events });
   } catch (error) {
-    console.error('Get Registrations Error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Get a specific registration by ID
-const getRegistrationById = async (req, res) => {
+// Get single event by ID
+const getEventById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const userId = req.user.userId;
+    const event = await Event.findById(req.params.id).populate('subEvents');
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+    res.status(200).json({ success: true, event });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
-    const registration = await EventRegistration.findOne({
-      _id: id,
-      registeredBy: userId
-    }).populate('registeredBy', 'name email year branch');
+// Update event
+const updateEvent = async (req, res) => {
+  try {
+    const updateData = { ...req.body };
 
-    if (!registration) {
-      return res.status(404).json({
-        success: false,
-        message: 'Registration not found'
-      });
+    // Sanitize icon field: if it's an object and no new file uploaded, remove it from updateData
+    // This prevented Mongoose "Cast to string failed" errors when req.body.icon is {}
+    if (typeof updateData.icon === 'object' && !req.file) {
+      delete updateData.icon;
     }
 
-    res.status(200).json({
-      success: true,
-      registration
-    });
+    console.log('--- Update Event Debug ---');
+    console.log('req.file:', req.file ? {
+      fieldname: req.file.fieldname,
+      originalname: req.file.originalname,
+      path: req.file.path
+    } : 'undefined');
+    console.log('req.body:', req.body);
 
-  } catch (error) {
-    console.error('Get Registration Error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
+    if (req.file) {
+      console.log('Update: File uploaded to Cloudinary:', req.file.path);
+      updateData.icon = req.file.path; // Cloudinary URL
+    } else {
+      console.log('Update: No file uploaded. req.body.icon:', req.body.icon);
+    }
+    const event = await Event.findByIdAndUpdate(req.params.id, updateData, {
+      new: true,
+      runValidators: true
     });
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+    res.status(200).json({ success: true, event });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
   }
 };
+
+// Delete event
+const deleteEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ success: false, message: 'Event not found' });
+    }
+
+    // Optional: Delete associated subevents
+    await SubEvent.deleteMany({ event: event._id });
+
+    await event.deleteOne();
+    res.status(200).json({ success: true, message: 'Event and associated sub-events deleted' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// --- SubEvent Controllers ---
+
+// Create SubEvent
+const createSubEvent = async (req, res) => {
+  try {
+    const { eventId } = req.body;
+    // ensure event exists
+    const eventExists = await Event.findById(eventId);
+    if (!eventExists) {
+      return res.status(404).json({ success: false, message: 'Parent Event not found' });
+    }
+
+    const subEvent = new SubEvent({ ...req.body, event: eventId });
+    await subEvent.save();
+
+    // Update parent event to have hasSubEvents: true if not already
+    if (!eventExists.hasSubEvents) {
+      eventExists.hasSubEvents = true;
+      await eventExists.save();
+    }
+
+    res.status(201).json({ success: true, subEvent });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// Update SubEvent
+const updateSubEvent = async (req, res) => {
+  try {
+    const subEvent = await SubEvent.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+    if (!subEvent) {
+      return res.status(404).json({ success: false, message: 'SubEvent not found' });
+    }
+    res.status(200).json({ success: true, subEvent });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// Delete SubEvent
+const deleteSubEvent = async (req, res) => {
+  try {
+    const subEvent = await SubEvent.findByIdAndDelete(req.params.id);
+    if (!subEvent) {
+      return res.status(404).json({ success: false, message: 'SubEvent not found' });
+    }
+
+    // Check if parent event still has subevents
+    const remainingSubEvents = await SubEvent.countDocuments({ event: subEvent.event });
+    if (remainingSubEvents === 0) {
+      await Event.findByIdAndUpdate(subEvent.event, { hasSubEvents: false });
+    }
+
+    res.status(200).json({ success: true, message: 'SubEvent deleted' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 
 module.exports = {
-  registerEvent,
-  getMyRegistrations,
-  getRegistrationById
+  createEvent,
+  getAllEvents,
+  getEventById,
+  updateEvent,
+  deleteEvent,
+  createSubEvent,
+  updateSubEvent,
+  deleteSubEvent
 };
-
