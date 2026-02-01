@@ -22,7 +22,6 @@ import KomalGupta from '../assets/KomalGupta.jpg'
 import PerneetaAwasthi from '../assets/PerneetaAwasthi.jpg'
 import ShristiSingh from '../assets/ShristiSingh.jpg'
 import VaibhavGarg from '../assets/VaibhavGarg.jpg'
-// import AadityaUpadhyay from '../assets/AadityaUpadhyay.jpg'
 import AditiYadav from '../assets/AditiYadav.jpg'
 import AkashGupta from '../assets/AkashGupta.jpg'
 import RiyaSrivastava from '../assets/RiyaSrivastava.jpg'
@@ -38,87 +37,87 @@ export const members = [
    {
      id: 1,
      name: "Himanshu Dubey",
-     branch: "BTech IT 4th Year",
-     designation: "Student Secretary",
+     branch: "BTech",
+     designation: "Alumni 2025",
      image: HimanshuDubey,
      linkedin: "https://www.linkedin.com/in/himanshud2611"
    },
    {
      id: 2,
      name: "Krishna Nand",
-     branch: "MCA 2nd Year",
-     designation: "Student Joint Treasurer",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: KrishnaNand,
      linkedin: "https://www.linkedin.com/in/krishna-nand-kn"
    },
    {
      id: 3,
      name: "Utkarsh Tiwari",
-     branch: "MCA 2nd Year",
-     designation: "Executive Member",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: UtkarshTiwari,
      linkedin: "https://www.linkedin.com/in/imutkarsht"
    },
    {
      id: 4,
      name: "Ahmad Faraz Ansari",
-     branch: "MCA 2nd Year",
-     designation: "Executive Member",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: AhmadFarazAnsari,
      linkedin: "https://www.linkedin.com/in/ahmad-faraz-ansari"
    },
    {
      id: 5,
      name: "Shrey Srivastava",
-     branch: "MCA 2nd Year",
-     designation: "Executive Member",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: ShreySrivastava,
      linkedin: "https://www.linkedin.com/in/shrey-srivastava-31b527182"
    },
    {
      id: 6,
      name: "Sachin Chauhan",
-     branch: "MCA 2nd Year",
-     designation: "Executive Member",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: SachinChauhan,
      linkedin: "https://www.linkedin.com/in/sachin-chauhan-59ba991b0"
    },
    {
      id: 7,
      name: "Divyanshu Kanaujiya",
-     branch: "MCA 2nd Year",
-     designation: "Executive Member",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: DivyanshuKanaujiya,
      linkedin: "https://www.linkedin.com/in/divyanshu-kanaujia"
    },
    {
      id: 8,
      name: "Rupali Mishra",
-     branch: "MCA 2nd Year",
-     designation: "Executive Member",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: RupaliMishra,
-     linkedin: "https://www.linkedin.com/in/rupali-mishra"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 9,
      name: "Siddhi Mishra",
-     branch: "MCA 2nd Year",
-     designation: "Executive Member",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: SiddhiMishra,
      linkedin: "https://www.linkedin.com/in/siddhi-mishra-59154519a"
    },
    {
      id: 10,
      name: "Sanchita Bajpai",
-     branch: "MCA 2nd Year",
-     designation: "Executive Member",
+     branch: "MCA",
+     designation: "Alumni 2025",
      image: SanchitaBajpai,
      linkedin: "https://www.linkedin.com/in/sanchita-bajpai"
    },
    {
      id: 11,
      name: "Abhishrestha Tiwari",
-     branch: "BTech IT 3rd Year",
+     branch: "BTech IT 4th Year",
      designation: "Executive Member",
      image: AbhishresthaTiwari,
      linkedin: "https://www.linkedin.com/in/abhishresthatiwari"
@@ -126,23 +125,23 @@ export const members = [
    {
      id: 12,
      name: "Aditya Tripathi",
-     branch: "BTech IT 3rd Year",
+     branch: "BTech IT 4th Year",
      designation: "Executive Member",
      image: AdityaTripathi,
-     linkedin: "https://www.linkedin.com/in/aditya-tripathi"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 13,
      name: "Amit Kumar Sahani",
-     branch: "BTech IT 3rd Year",
-     designation: "Executive Member",
+     branch: "BTech IT 4th Year",
+     designation: "Student Secretary",
      image: AmitKumarSahani,
      linkedin: "https://www.linkedin.com/in/amit-kumar-sahani"
    },
    {
      id: 14,
      name: "Anshul Sengar",
-     branch: "BTech IT 3rd Year",
+     branch: "BTech IT 4th Year",
      designation: "Executive Member",
      image: AnshulSengar,
      linkedin: "https://www.linkedin.com/in/anshul-sengar"
@@ -150,154 +149,154 @@ export const members = [
    {
      id: 15,
      name: "Himani Rajput",
-     branch: "BTech IT 3rd Year",
+     branch: "BTech IT 4th Year",
      designation: "Executive Member",
      image: HimaniRajput,
-     linkedin: "https://www.linkedin.com/in/himani-rajput"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 16,
      name: "Kumari Nisha",
-     branch: "BTech IT 3rd Year",
+     branch: "BTech IT 4th Year",
      designation: "Executive Member",
      image: KumariNisha,
-     linkedin: "https://www.linkedin.com/in/kumari-nisha"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 17,
      name: "Manoj Kumar",
-     branch: "BTech IT 3rd Year",
+     branch: "BTech IT 4th Year",
      designation: "Executive Member",
      image: ManojKumar,
-     linkedin: "https://www.linkedin.com/in/manoj-kumar"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 18,
      name: "Priya Yadav",
-     branch: "BTech IT 3rd Year",
+     branch: "BTech IT 4th Year",
      designation: "Executive Member",
      image: PriyaYadav,
-     linkedin: "https://www.linkedin.com/in/priya-yadav"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 19,
      name: "Vishesh Singh",
-     branch: "BTech IT 3rd Year",
+     branch: "BTech IT 4th Year",
      designation: "Executive Member",
      image: VisheshSingh,
-     linkedin: "https://www.linkedin.com/in/vishesh-singh"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 20,
      name: "Alabhya Goel",
-     branch: "BTech IT 4th Year",
-     designation: "Executive Member",
+     branch: "BTech",
+     designation: "Alumni 2025",
      image: AlabhyaGoel,
      linkedin: "https://www.linkedin.com/in/alabhya-goel"
    },
    {
      id: 21,
      name: "Komal Gupta",
-     branch: "BTech IT 4th Year",
-     designation: "Executive Member",
+     branch: "BTech",
+     designation: "Alumni 2025",
      image: KomalGupta,
-     linkedin: "https://www.linkedin.com/in/komal-gupta"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 22,
      name: "Perneeta Awasthi",
-     branch: "BTech IT 4th Year",
-     designation: "Executive Member",
+     branch: "BTech",
+     designation: "Alumni 2025",
      image: PerneetaAwasthi,
-     linkedin: "https://www.linkedin.com/in/perneeta-awasthi"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 23,
      name: "Shristi Singh",
-     branch: "BTech IT 4th Year",
-     designation: "Executive Member",
+     branch: "BTech",
+     designation: "Alumni 2025",
      image: ShristiSingh,
-     linkedin: "https://www.linkedin.com/in/shristi-singh"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 24,
      name: "Vaibhav Garg",
-     branch: "BTech IT 4th Year",
-     designation: "Executive Member",
+     branch: "BTech",
+     designation: "Alumni 2025",
      image: VaibhavGarg,
-     linkedin: "https://www.linkedin.com/in/vaibhav-garg"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 25,
      name: "Aditi Yadav",
-     branch: "BTech IT 2nd Year",
+     branch: "BTech IT 3rd Year",
      designation: "Executive Member",
      image: AditiYadav,
-     linkedin: "https://www.linkedin.com/in/aditi-yadav"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 26,
      name: "Akash Gupta",
-     branch: "BTech IT 2nd Year",
-     designation: "Executive Member",
+     branch: "BTech IT 3rd Year",
+     designation: "Technical Head",
      image: AkashGupta,
-     linkedin: "https://www.linkedin.com/in/akash-gupta"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 27,
      name: "Riya Srivastava",
-     branch: "BTech IT 2nd Year",
+     branch: "BTech IT 3rd Year",
      designation: "Executive Member",
      image: RiyaSrivastava,
-     linkedin: "https://www.linkedin.com/in/riya-srivastava"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 28,
      name: "Ryan Maroof",
-     branch: "BTech IT 2nd Year",
+     branch: "BTech IT 3rd Year",
      designation: "Executive Member",
      image: RyanMaroof,
-     linkedin: "https://www.linkedin.com/in/ryan-maroof"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 29,
      name: "Sandhya Kumari",
-     branch: "BTech IT 2nd Year",
+     branch: "BTech IT 3rd Year",
      designation: "Executive Member",
      image: SandhyaKumari,
-     linkedin: "https://www.linkedin.com/in/sandhya-kumari"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 30,
      name: "Saumya Srivastava",
-     branch: "BTech IT 2nd Year",
-     designation: "Executive Member",
+     branch: "BTech IT 3rd Year",
+     designation: "Student Joint Secretary",
      image: SaumyaSrivastava,
-     linkedin: "https://www.linkedin.com/in/saumya-srivastava"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 31,
      name: "Shashank Bharadwaj",
-     branch: "BTech IT 2nd Year",
+     branch: "BTech IT 3rd Year",
      designation: "Executive Member",
      image: ShashankBhardwaj,
-     linkedin: "https://www.linkedin.com/in/shashank-bharadwaj"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 32,
      name: "Shivankar Tripathi",
-     branch: "BTech IT 2nd Year",
+     branch: "BTech IT 3rd Year",
      designation: "Executive Member",
      image: ShivankarTripathi,
-     linkedin: "https://www.linkedin.com/in/shivankar-tripathi"
+     linkedin: "https://www.linkedin.com/in/"
    },
    {
      id: 33,
      name: "Vaishnavi Tripathi",
-     branch: "BTech IT 2nd Year",
+     branch: "BTech IT 3rd Year",
      designation: "Executive Member",
      image: VaishnaviTripathi,
-     linkedin: "https://www.linkedin.com/in/vaishnavi-tripathi"
+     linkedin: "https://www.linkedin.com/in/"
    }
  ];
  

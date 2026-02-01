@@ -3,20 +3,13 @@ import MemberCard from "./MemberCard";
 import { members } from "../utils/mockData";
 import { motion } from "framer-motion";
 
-
-// Create an array of images
-// const memberImages = [HimanshuDubey, KrishnaNand, UtkarshTiwari,AhmadFarazAnsari,ShreySrivastava,SachinChauhan,DivyanshuKanaujiya,RupaliMishra,
-//                       SiddhiMishra,SanchitaBajpai,AbhishresthaTiwari,AdityaTripathi,AmitKumarSahani,AnshulSengar,HimaniRajput,KumariNisha,ManojKumar,
-//                       PriyaYadav,VisheshSingh,AlabhyaGoel,KomalGupta,PerneetaAwasthi,ShristiSingh,VaibhavGarg,,AditiYadav,AkashGupta,RiyaSrivastava,
-//                       RyanMaroof,SandhyaKumari,SaumyaSrivastava,ShashankBhardwaj,ShivankarTripathi,VaishnaviTripathi];
-
 const MembersPage = () => {
    const [filter, setFilter] = useState("All");
    const [btechYear, setBtechYear] = useState("All");
 
    const handleFilterChange = (category) => {
       setFilter(category);
-      setBtechYear("All"); // Reset BTech year filter if switching categories
+      setBtechYear("All");
    };
 
    const handleBtechYearChange = (year) => {
@@ -25,9 +18,10 @@ const MembersPage = () => {
 
    const filteredMembers = members.filter((member) => {
       if (filter === "All") return true;
-      if (filter === "MCA" && member.branch.includes("MCA")) return true;
+      if (filter === "MCA" && member.branch.includes("MCA") && !member.designation.includes("Alumni")) return true;
+      if (filter === "Alumni" && member.designation.includes("Alumni")) return true;
       if (filter === "BTech") {
-         if (btechYear === "All") return member.branch.includes("BTech");
+         if (btechYear === "All") return (member.branch.includes("BTech") && !member.designation.includes("Alumni"));
          return member.branch.includes(`BTech IT ${btechYear}`);
       }
       if (filter === "Student Lead" && member.designation.includes("Student")) return true;
@@ -94,6 +88,14 @@ const MembersPage = () => {
                onClick={() => handleFilterChange("Student Lead")}
             >
                Student Lead
+            </button>
+            <button
+               className={`${
+                  filter === "Alumni" ? "bg-red-600 text-white" : "bg-gray-600 text-zinc-300"
+               } py-2 px-4 rounded-full font-semibold transition-colors duration-200`}
+               onClick={() => handleFilterChange("Alumni")}
+            >
+               Alumni
             </button>
          </div>
 
