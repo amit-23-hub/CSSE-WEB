@@ -24,7 +24,7 @@ const Hero = () => {
 
         setTimeout(() => {
             setLoading(false);
-        }, 7000);
+        }, 2000);
 
         return () => window.removeEventListener('resize', checkScreenSize);
     }, []);

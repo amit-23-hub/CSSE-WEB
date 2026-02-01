@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import city1 from "../assets/city1.png";
-import city2 from "../assets/city2.png";
-import city3 from "../assets/city3.png";
-import planet1 from "../assets/planet1.png";
-import planet2 from "../assets/planet2.png";
+import city1 from "../assets/city1.avif";
+import city2 from "../assets/city2.avif";
+import city3 from "../assets/city3.avif";
+import planet1 from "../assets/planet1.avif";
+import planet2 from "../assets/planet2.avif";
 
 const ImageSlider = () => {
   const [positionIndexes, setPositionIndexes] = useState([0, 1, 2, 3, 4]);

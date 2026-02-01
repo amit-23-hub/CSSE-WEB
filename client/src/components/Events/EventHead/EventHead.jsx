@@ -1,10 +1,6 @@
 import React from 'react';
-import styles from './EventHead.module.css'; // Import the CSS module
-import img1 from '../../../assets/planet1.png';
-import img2 from '../../../assets/planet2.png';
-import img3 from '../../../assets/poster-1.png'; // Corrected file name
-import img4 from '../../../assets/city1.png';
-
+import styles from './EventHead.module.css';
+import img3 from '../../../assets/poster-1.png';
 import technicalPre1 from '../../../assets/events/technicalPre1.jpg'
 import techno2 from '../../../assets/events/techno2.jpg'
 import byteburst1 from '../../../assets/events/byteburst1.jpg'
