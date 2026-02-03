@@ -1,14 +1,10 @@
 const Event = require('../models/Event');
 const SubEvent = require('../models/SubEvent');
 
-// --- Event Controllers ---
-
-// Create a new event
 const createEvent = async (req, res) => {
   try {
     const eventData = { ...req.body };
 
-    // Sanitize icon field: if it's an object (and not a file path string), remove it
     if (typeof eventData.icon === 'object' && !req.file) {
       delete eventData.icon;
     }
@@ -23,7 +19,7 @@ const createEvent = async (req, res) => {
 
     if (req.file) {
       console.log('File uploaded to Cloudinary:', req.file.path);
-      eventData.icon = req.file.path; // Cloudinary URL
+      eventData.icon = req.file.path;
     } else {
       console.log('No file uploaded. req.body.icon:', req.body.icon);
     }
@@ -35,7 +31,6 @@ const createEvent = async (req, res) => {
   }
 };
 
-// Get all events (Public)
 const getAllEvents = async (req, res) => {
   try {
     const events = await Event.find()

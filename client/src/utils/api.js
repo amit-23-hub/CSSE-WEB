@@ -16,8 +16,7 @@ export const authAPI = {
   logout: () => api.post('/auth/logout'),
   getProfile: () => api.get('/auth/profile'),
   updateProfile: (formData) => api.put('/auth/profile', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-    withCredentials: true
+    headers: { 'Content-Type': 'multipart/form-data' }
   })
 };
 

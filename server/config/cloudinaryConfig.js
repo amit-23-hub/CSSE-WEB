@@ -11,7 +11,8 @@ cloudinary.config({
 
 console.log('Cloudinary Configured with cloud_name:', process.env.CLOUDINARY_CLOUD_NAME);
 
-const storage = new CloudinaryStorage({
+// Storage for event icons/images
+const eventStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'csse_events',
@@ -19,6 +20,21 @@ const storage = new CloudinaryStorage({
     },
 });
 
-const upload = multer({ storage: storage });
+// Storage for profile pictures
+const profileStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'csse_profile_pics',
+        allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+    },
+});
 
-module.exports = upload;
+// Create multer upload instances
+const uploadEvent = multer({ storage: eventStorage });
+const uploadProfile = multer({ storage: profileStorage });
+
+module.exports = {
+    uploadEvent,
+    uploadProfile,
+    cloudinary
+};

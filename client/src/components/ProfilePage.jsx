@@ -37,17 +37,18 @@ const ProfilePage = () => {
     setLoading(true);
     setError('');
     try {
-      const fd = new FormData();
-      if (file) fd.append('profilePic', file);
-      fd.append('name', form.name);
-      fd.append('year', form.year);
-      fd.append('branch', form.branch);
-      fd.append('phone', form.phone);
+      const formData = new FormData();
+      if (file) formData.append('profilePic', file);
+      formData.append('name', form.name);
+      formData.append('year', form.year);
+      formData.append('branch', form.branch);
+      formData.append('phone', form.phone);
 
-      const res = await authAPI.updateProfile(fd);
+      const res = await authAPI.updateProfile(formData);
       if (res.data.success) {
         updateUser(res.data.user);
         setEditing(false);
+        setFile(null);
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Update failed');
@@ -60,7 +61,7 @@ const ProfilePage = () => {
     }
   };
 
-  if (loading) return <div className="p-6 text-white">Loading...</div>;
+  if (loading) return <div className="p-6 text-white">Updating profile...</div>;
   if (error) return <div className="p-6 text-red-400">{error}</div>;
   if (!contextUser) return <div className="p-6 text-zinc-400">No profile available. Please login.</div>;
 

@@ -180,17 +180,13 @@ const updateProfile = async (req, res) => {
       });
     }
 
-    // Update user fields
     const { name, year, branch, phone } = req.body;
     if (name) user.name = name;
     if (year) user.year = year;
     if (branch) user.branch = branch;
-    if (phone) user.phone = phone;
-
-    // Handle profile picture upload
+    if (phone) user.phone = phone
     if (req.file) {
-      const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
-      user.profilePic = fileUrl;
+      user.profilePic = req.file.path;
     }
 
     await user.save();
