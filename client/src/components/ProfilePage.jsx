@@ -75,7 +75,6 @@ const ProfilePage = () => {
             <p className="text-zinc-400">{contextUser.email}</p>
             <p className="text-zinc-400">{contextUser.year} • {contextUser.branch}</p>
             <p className="text-zinc-400 font-medium">Phone: {contextUser.phone || 'N/A'}</p>
-            <p className="text-zinc-400 text-sm mt-1">ID: {contextUser._id || contextUser.id}</p>
             {contextUser.createdAt && <p className="text-zinc-400 text-sm">Joined: {new Date(contextUser.createdAt).toLocaleString()}</p>}
           </div>
         </div>

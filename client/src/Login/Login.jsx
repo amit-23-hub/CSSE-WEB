@@ -3,6 +3,8 @@ import Navbar from '../Navbar/Navbar';
 import Bottom from '../Pages/Bottom/Bottom';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import ForgotPassword from '../components/ForgotPassword';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -10,6 +12,12 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [registrationStep, setRegistrationStep] = useState(1); // 1: Email, 2: OTP, 3: Full Form
+  const [verificationToken, setVerificationToken] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,7 +25,8 @@ const Login = () => {
     branch: '',
     phone: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    otp: ''
   });
 
   const handleChange = (e) => {
@@ -26,21 +35,24 @@ const Login = () => {
       [e.target.name]: e.target.value
     });
     setError('');
+    setSuccess('');
   };
 
   const validateForm = () => {
     if (!isLogin) {
-      if (!formData.name || !formData.year || !formData.branch || !formData.phone) {
-        setError('All fields are required');
-        return false;
-      }
-      if (formData.password !== formData.confirmPassword) {
-        setError('Passwords do not match');
-        return false;
-      }
-      if (formData.password.length < 6) {
-        setError('Password must be at least 6 characters');
-        return false;
+      if (registrationStep === 3) {
+        if (!formData.name || !formData.year || !formData.branch || !formData.phone) {
+          setError('All fields are required');
+          return false;
+        }
+        if (formData.password !== formData.confirmPassword) {
+          setError('Passwords do not match');
+          return false;
+        }
+        if (formData.password.length < 6) {
+          setError('Password must be at least 6 characters');
+          return false;
+        }
       }
     }
 
@@ -50,6 +62,80 @@ const Login = () => {
     }
 
     return true;
+  };
+
+  // Send OTP for email verification
+  const handleSendOTP = async () => {
+    if (!formData.email) {
+      setError('Email is required');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: formData.email })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSuccess('Verification code sent to your email!');
+        setRegistrationStep(2);
+      } else {
+        setError(data.message || 'Failed to send verification code');
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      setError('An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Verify OTP
+  const handleVerifyOTP = async () => {
+    if (!formData.otp) {
+      setError('OTP is required');
+      return;
+    }
+
+    setLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          otp: formData.otp
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setSuccess('Email verified! Complete your registration.');
+        setVerificationToken(data.verificationToken);
+        setRegistrationStep(3);
+      } else {
+        setError(data.message || 'Invalid OTP');
+      }
+    } catch (err) {
+      console.error('Error:', err);
+      setError('An error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -83,7 +169,8 @@ const Login = () => {
           password: formData.password,
           year: formData.year,
           branch: formData.branch,
-          phone: formData.phone
+          phone: formData.phone,
+          verificationToken: verificationToken
         });
 
         if (result.success) {
@@ -109,6 +196,9 @@ const Login = () => {
   const toggleMode = () => {
     setIsLogin(!isLogin);
     setError('');
+    setSuccess('');
+    setRegistrationStep(1);
+    setVerificationToken('');
     setFormData({
       name: '',
       email: '',
@@ -116,13 +206,18 @@ const Login = () => {
       branch: '',
       phone: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      otp: ''
     });
   };
 
   return (
     <>
       <Navbar />
+      <ForgotPassword
+        isOpen={showForgotPassword}
+        onClose={() => setShowForgotPassword(false)}
+      />
       <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4 py-8">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
@@ -141,8 +236,80 @@ const Login = () => {
               </div>
             )}
 
+            {success && (
+              <div className="mb-4 p-3 bg-green-500/20 border border-green-500 rounded-lg text-green-400 text-sm">
+                {success}
+              </div>
+            )}
+
             <div className="space-y-5">
-              {!isLogin && (
+              {/* Registration Step 1: Email Entry */}
+              {!isLogin && registrationStep === 1 && (
+                <>
+                  <div>
+                    <label className="block text-zinc-300 mb-2 font-medium">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="your.email@example.com"
+                      className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all"
+                    />
+                  </div>
+
+                  <button
+                    onClick={handleSendOTP}
+                    disabled={loading}
+                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? 'Sending...' : 'Send Verification Code'}
+                  </button>
+                </>
+              )}
+
+              {/* Registration Step 2: OTP Verification */}
+              {!isLogin && registrationStep === 2 && (
+                <>
+                  <div>
+                    <label className="block text-zinc-300 mb-2 font-medium">
+                      Verification Code
+                    </label>
+                    <p className="text-zinc-400 text-xs mb-2">
+                      Enter the 6-digit code sent to {formData.email}
+                    </p>
+                    <input
+                      type="text"
+                      name="otp"
+                      value={formData.otp}
+                      onChange={handleChange}
+                      placeholder="Enter 6-digit code"
+                      maxLength={6}
+                      className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all text-center text-2xl tracking-widest"
+                    />
+                  </div>
+
+                  <button
+                    onClick={handleVerifyOTP}
+                    disabled={loading}
+                    className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? 'Verifying...' : 'Verify Email'}
+                  </button>
+
+                  <button
+                    onClick={() => setRegistrationStep(1)}
+                    className="w-full text-cyan-400 hover:text-cyan-300 text-sm transition-colors"
+                  >
+                    ← Change email
+                  </button>
+                </>
+              )}
+
+              {/* Registration Step 3: Complete Registration Form */}
+              {!isLogin && registrationStep === 3 && (
                 <>
                   <div>
                     <label className="block text-zinc-300 mb-2 font-medium">
@@ -217,54 +384,80 @@ const Login = () => {
                 </>
               )}
 
-              <div>
-                <label className="block text-zinc-300 mb-2 font-medium">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="your.email@example.com"
-                  className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all"
-                />
-              </div>
+              {/* Login Mode OR Registration Step 3: Email & Password fields */}
+              {(isLogin || registrationStep === 3) && (
+                <>
+                  {isLogin && (
+                    <div>
+                      <label className="block text-zinc-300 mb-2 font-medium">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="your.email@example.com"
+                        className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all"
+                      />
+                    </div>
+                  )}
 
-              <div>
-                <label className="block text-zinc-300 mb-2 font-medium">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all"
-                />
-              </div>
+                  <div>
+                    <label className="block text-zinc-300 mb-2 font-medium">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="••••••••"
+                        className="w-full bg-slate-800 text-white px-4 py-3 pr-12 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-zinc-300 transition-colors"
+                      >
+                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      </button>
+                    </div>
+                  </div>
 
-              {!isLogin && (
-                <div>
-                  <label className="block text-zinc-300 mb-2 font-medium">
-                    Confirm Password
-                  </label>
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    placeholder="••••••••"
-                    className="w-full bg-slate-800 text-white px-4 py-3 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all"
-                  />
-                </div>
+                  {!isLogin && (
+                    <div>
+                      <label className="block text-zinc-300 mb-2 font-medium">
+                        Confirm Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          name="confirmPassword"
+                          value={formData.confirmPassword}
+                          onChange={handleChange}
+                          placeholder="••••••••"
+                          className="w-full bg-slate-800 text-white px-4 py-3 pr-12 rounded-lg border border-slate-700 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-zinc-400 hover:text-zinc-300 transition-colors"
+                        >
+                          {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
 
               {isLogin && (
                 <div className="flex justify-end">
                   <button
                     type="button"
+                    onClick={() => setShowForgotPassword(true)}
                     className="text-cyan-400 hover:text-cyan-300 text-sm transition-colors"
                   >
                     Forgot Password?
@@ -272,13 +465,15 @@ const Login = () => {
                 </div>
               )}
 
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Processing...' : (isLogin ? 'Login' : 'Sign Up')}
-              </button>
+              {(isLogin || registrationStep === 3) && (
+                <button
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 transform hover:scale-[1.02] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? 'Processing...' : (isLogin ? 'Login' : 'Complete Registration')}
+                </button>
+              )}
             </div>
 
             <div className="mt-6 text-center">
