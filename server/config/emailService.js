@@ -1,42 +1,52 @@
 const nodemailer = require('nodemailer');
 
-// Create transporter with SSL on port 465 (more reliable than TLS 587)
+// Gmail's IPv4 SMTP server address
+// Using direct IP to avoid IPv6 DNS resolution issues on Render
+const GMAIL_SMTP_IPV4 = '142.250.152.108'; // smtp.gmail.com IPv4 address
+
+// Create transporter using direct IPv4 address to bypass DNS
 const createTransporter = () => {
   return nodemailer.createTransport({
-    service: 'gmail', // Use service preset which handles IPv4/IPv6 automatically
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD
-    },
-    pool: true,
-    maxConnections: 3,
-    maxMessages: 10,
-    rateDelta: 1000,
-    rateLimit: 5
-  });
-};
-
-// Fallback transporter if primary fails
-const createFallbackTransporter = () => {
-  return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 465,
-    secure: true, // Use SSL
+    host: GMAIL_SMTP_IPV4, // Direct IPv4 address
+    port: 587,
+    secure: false, // STARTTLS
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD
     },
     tls: {
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
+      servername: 'smtp.gmail.com' // SNI hostname for TLS verification
+    },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 45000
+  });
+};
+
+// Fallback with alternative Gmail IPv4 and SSL
+const createFallbackTransporter = () => {
+  return nodemailer.createTransport({
+    host: '142.251.10.109', // Alternative Gmail IPv4 address
+    port: 465,
+    secure: true, // SSL
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
+    },
+    tls: {
+      rejectUnauthorized: false,
+      servername: 'smtp.gmail.com'
     }
   });
 };
 
 // Send email with retry logic
-const sendEmailWithRetry = async (transporter, mailOptions, maxRetries = 3) => {
+const sendEmailWithRetry = async (transporter, mailOptions, maxRetries = 2) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const info = await transporter.sendMail(mailOptions);
+      console.log(`Email sent successfully on attempt ${attempt}`);
       return { success: true, messageId: info.messageId };
     } catch (error) {
       console.error(`Email attempt ${attempt} failed:`, error.message);
@@ -44,18 +54,19 @@ const sendEmailWithRetry = async (transporter, mailOptions, maxRetries = 3) => {
       // If this was the last attempt, try fallback transporter
       if (attempt === maxRetries) {
         try {
-          console.log('Trying fallback transporter...');
+          console.log('Trying fallback transporter with alternative IPv4 address...');
           const fallbackTransporter = createFallbackTransporter();
           const info = await fallbackTransporter.sendMail(mailOptions);
+          console.log('Email sent via fallback transporter');
           return { success: true, messageId: info.messageId };
         } catch (fallbackError) {
-          console.error('Fallback transporter also failed:', fallbackError);
+          console.error('Fallback transporter also failed:', fallbackError.message);
           throw new Error('Failed to send email after all retry attempts');
         }
       }
 
-      // Wait before retrying (exponential backoff)
-      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+      // Wait before retrying
+      await new Promise(resolve => setTimeout(resolve, 2000 * attempt));
     }
   }
 };
