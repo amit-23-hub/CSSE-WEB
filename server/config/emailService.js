@@ -1,17 +1,31 @@
 const nodemailer = require('nodemailer');
-
-// Create reusable transporter object using SMTP
 const createTransporter = () => {
-  return nodemailer.createTransport({
+  return nodemailer.createTransporter({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
     port: process.env.EMAIL_PORT || 587,
-    secure: false, // true for 465, false for other ports
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD
     },
+    // Force IPv4 to avoid IPv6 connectivity issues on Render
+    dnsOptions: {
+      family: 4
+    },
+    pool: true,
+    maxConnections: 5,
+    maxMessages: 10,
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 30000,
     tls: {
-      rejectUnauthorized: false
+      rejectUnauthorized: false,
+      ciphers: 'SSLv3'
+    },
+    // Retry logic
+    retry: {
+      maxRetries: 3,
+      delay: 1000
     }
   });
 };

@@ -9,9 +9,8 @@ const authRoutes = require('./routes/authRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 
 const app = express();
-
-// Connect to MongoDB
 connectDB();
+app.set('trust proxy', 1);
 
 // Middlewares
 app.use(express.json());
