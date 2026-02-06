@@ -1,33 +1,63 @@
 const nodemailer = require('nodemailer');
+
+// Create transporter with SSL on port 465 (more reliable than TLS 587)
 const createTransporter = () => {
   return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port: process.env.EMAIL_PORT || 587,
-    secure: false,
+    service: 'gmail', // Use service preset which handles IPv4/IPv6 automatically
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASSWORD
     },
-    // Force IPv4 to avoid IPv6 connectivity issues on Render
-    dnsOptions: {
-      family: 4
-    },
     pool: true,
-    maxConnections: 5,
+    maxConnections: 3,
     maxMessages: 10,
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 30000,
-    tls: {
-      rejectUnauthorized: false,
-      ciphers: 'SSLv3'
+    rateDelta: 1000,
+    rateLimit: 5
+  });
+};
+
+// Fallback transporter if primary fails
+const createFallbackTransporter = () => {
+  return nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true, // Use SSL
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
     },
-    // Retry logic
-    retry: {
-      maxRetries: 3,
-      delay: 1000
+    tls: {
+      rejectUnauthorized: false
     }
   });
+};
+
+// Send email with retry logic
+const sendEmailWithRetry = async (transporter, mailOptions, maxRetries = 3) => {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      return { success: true, messageId: info.messageId };
+    } catch (error) {
+      console.error(`Email attempt ${attempt} failed:`, error.message);
+
+      // If this was the last attempt, try fallback transporter
+      if (attempt === maxRetries) {
+        try {
+          console.log('Trying fallback transporter...');
+          const fallbackTransporter = createFallbackTransporter();
+          const info = await fallbackTransporter.sendMail(mailOptions);
+          return { success: true, messageId: info.messageId };
+        } catch (fallbackError) {
+          console.error('Fallback transporter also failed:', fallbackError);
+          throw new Error('Failed to send email after all retry attempts');
+        }
+      }
+
+      // Wait before retrying (exponential backoff)
+      await new Promise(resolve => setTimeout(resolve, 1000 * attempt));
+    }
+  }
 };
 
 /**
@@ -121,8 +151,7 @@ const sendOTPEmail = async (email, otp) => {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    return { success: true, messageId: info.messageId };
+    return await sendEmailWithRetry(transporter, mailOptions);
   } catch (error) {
     console.error('Email sending error:', error);
     throw new Error('Failed to send email');
@@ -230,8 +259,7 @@ const sendPasswordResetEmail = async (email, otp) => {
   };
 
   try {
-    const info = await transporter.sendMail(mailOptions);
-    return { success: true, messageId: info.messageId };
+    return await sendEmailWithRetry(transporter, mailOptions);
   } catch (error) {
     console.error('Email sending error:', error);
     throw new Error('Failed to send email');
