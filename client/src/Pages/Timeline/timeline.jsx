@@ -49,22 +49,7 @@ const Timeline = () => {
       setSelectedEvent(event);
       setIsModalOpen(true);
     } else {
-      // Direct registration for single events (Solo)
-      // For solo event, we still need to provide participant details if we want to follow the schema strictly,
-      // OR the backend could auto-fill from user profile for solo events if we implement that convenience.
-      // However, the requested schema change says "Registration should have participants array".
-      // The user said: "frontend ... modal to fill details of participants ... team leader from logged in user"
-      // So even for solo, we might want to confirm details or just auto-fill.
-      // For UX, if it's a simple click-to-register, we can auto-fill strictly from User profile on backend or frontend.
-      // But the prompt said: "if event is a single person event, then he/she will be directly registerd by just one click"
-
-      // So I will assume for direct click (Solo), we auto-register the logged-in user.
-      // BUT WAIT, the new schema requires `participants` array with `name, email, year, branch, phone`.
-      // The backend `register` controller expects this array.
-      // So I should construct it from the logged-in `user` context if available.
-
       if (!user) {
-        // Should not happen if isLoggedIn check passes, but good safety
         alert("Please log in to register.");
         return;
       }
@@ -76,7 +61,7 @@ const Timeline = () => {
           email: user.email,
           year: user.year,
           branch: user.branch,
-          phone: user.phone || '0000000000' // Phone might be missing if old user user
+          phone: user.phone || '0000000000'
         };
 
         const payload = {
