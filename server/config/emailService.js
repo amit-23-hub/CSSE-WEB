@@ -1,75 +1,11 @@
-const nodemailer = require('nodemailer');
+const SibApiV3Sdk = require('sib-api-v3-sdk');
 
-// Gmail's IPv4 SMTP server address
-// Using direct IP to avoid IPv6 DNS resolution issues on Render
-const GMAIL_SMTP_IPV4 = '142.250.152.108'; // smtp.gmail.com IPv4 address
+// Initialize Brevo (Sendinblue) API
+const defaultClient = SibApiV3Sdk.ApiClient.instance;
+const apiKey = defaultClient.authentications['api-key'];
+apiKey.apiKey = process.env.BREVO_API_KEY;
 
-// Create transporter using direct IPv4 address to bypass DNS
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: GMAIL_SMTP_IPV4, // Direct IPv4 address
-    port: 587,
-    secure: false, // STARTTLS
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD
-    },
-    tls: {
-      rejectUnauthorized: false,
-      servername: 'smtp.gmail.com' // SNI hostname for TLS verification
-    },
-    connectionTimeout: 15000,
-    greetingTimeout: 15000,
-    socketTimeout: 45000
-  });
-};
-
-// Fallback with alternative Gmail IPv4 and SSL
-const createFallbackTransporter = () => {
-  return nodemailer.createTransport({
-    host: '142.251.10.109', // Alternative Gmail IPv4 address
-    port: 465,
-    secure: true, // SSL
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD
-    },
-    tls: {
-      rejectUnauthorized: false,
-      servername: 'smtp.gmail.com'
-    }
-  });
-};
-
-// Send email with retry logic
-const sendEmailWithRetry = async (transporter, mailOptions, maxRetries = 2) => {
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const info = await transporter.sendMail(mailOptions);
-      console.log(`Email sent successfully on attempt ${attempt}`);
-      return { success: true, messageId: info.messageId };
-    } catch (error) {
-      console.error(`Email attempt ${attempt} failed:`, error.message);
-
-      // If this was the last attempt, try fallback transporter
-      if (attempt === maxRetries) {
-        try {
-          console.log('Trying fallback transporter with alternative IPv4 address...');
-          const fallbackTransporter = createFallbackTransporter();
-          const info = await fallbackTransporter.sendMail(mailOptions);
-          console.log('Email sent via fallback transporter');
-          return { success: true, messageId: info.messageId };
-        } catch (fallbackError) {
-          console.error('Fallback transporter also failed:', fallbackError.message);
-          throw new Error('Failed to send email after all retry attempts');
-        }
-      }
-
-      // Wait before retrying
-      await new Promise(resolve => setTimeout(resolve, 2000 * attempt));
-    }
-  }
-};
+const transactionalEmailsApi = new SibApiV3Sdk.TransactionalEmailsApi();
 
 /**
  * Send email verification OTP
@@ -78,93 +14,95 @@ const sendEmailWithRetry = async (transporter, mailOptions, maxRetries = 2) => {
  * @returns {Promise<Object>} Email send result
  */
 const sendOTPEmail = async (email, otp) => {
-  const transporter = createTransporter();
-
-  const mailOptions = {
-    from: `"CSSE - Technical Society" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: 'Email Verification - CSSE',
-    html: `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-              color: #333;
-            }
-            .container {
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-              background-color: #f9f9f9;
-            }
-            .header {
-              background-color: #2563eb;
-              color: white;
-              padding: 20px;
-              text-align: center;
-              border-radius: 5px 5px 0 0;
-            }
-            .content {
-              background-color: white;
-              padding: 30px;
-              border-radius: 0 0 5px 5px;
-            }
-            .otp-box {
-              background-color: #f0f7ff;
-              border: 2px dashed #2563eb;
-              padding: 20px;
-              text-align: center;
-              margin: 20px 0;
-              border-radius: 5px;
-            }
-            .otp-code {
-              font-size: 32px;
-              font-weight: bold;
-              color: #2563eb;
-              letter-spacing: 5px;
-            }
-            .footer {
-              margin-top: 20px;
-              text-align: center;
-              color: #666;
-              font-size: 12px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>Email Verification</h1>
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+          }
+          .header {
+            background-color: #2563eb;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+          }
+          .content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 0 0 5px 5px;
+          }
+          .otp-box {
+            background-color: #f0f7ff;
+            border: 2px dashed #2563eb;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 5px;
+          }
+          .otp-code {
+            font-size: 32px;
+            font-weight: bold;
+            color: #2563eb;
+            letter-spacing: 5px;
+          }
+          .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>Email Verification</h1>
+          </div>
+          <div class="content">
+            <h2>Welcome to CSSE!</h2>
+            <p>Thank you for registering with the Computer Science & Software Engineering Technical Society.</p>
+            <p>To complete your registration, please use the following One-Time Password (OTP):</p>
+            
+            <div class="otp-box">
+              <div class="otp-code">${otp}</div>
             </div>
-            <div class="content">
-              <h2>Welcome to CSSE!</h2>
-              <p>Thank you for registering with the Computer Science & Software Engineering Technical Society.</p>
-              <p>To complete your registration, please use the following One-Time Password (OTP):</p>
-              
-              <div class="otp-box">
-                <div class="otp-code">${otp}</div>
-              </div>
-              
-              <p><strong>This OTP will expire in 10 minutes.</strong></p>
-              <p>If you didn't request this verification, please ignore this email.</p>
-              
-              <div class="footer">
-                <p>This is an automated message from CSSE. Please do not reply to this email.</p>
-              </div>
+            
+            <p><strong>This OTP will expire in 10 minutes.</strong></p>
+            <p>If you didn't request this verification, please ignore this email.</p>
+            
+            <div class="footer">
+              <p>This is an automated message from CSSE. Please do not reply to this email.</p>
             </div>
           </div>
-        </body>
-      </html>
-    `
-  };
+        </div>
+      </body>
+    </html>
+  `;
 
   try {
-    return await sendEmailWithRetry(transporter, mailOptions);
+    const sendSmtpEmail = {
+      sender: { email: 'akashgupta7484@gmail.com', name: 'CSSE - Technical Society' },
+      to: [{ email: email }],
+      subject: 'Email Verification - CSSE',
+      htmlContent: htmlContent
+    };
+
+    const result = await transactionalEmailsApi.sendTransacEmail(sendSmtpEmail);
+    console.log('✅ Email sent successfully via Brevo. Message ID:', result.messageId);
+    return { success: true, messageId: result.messageId };
   } catch (error) {
-    console.error('Email sending error:', error);
+    console.error('Email sending error:', error.message || error);
     throw new Error('Failed to send email');
   }
 };
@@ -176,103 +114,105 @@ const sendOTPEmail = async (email, otp) => {
  * @returns {Promise<Object>} Email send result
  */
 const sendPasswordResetEmail = async (email, otp) => {
-  const transporter = createTransporter();
-
-  const mailOptions = {
-    from: `"CSSE - Technical Society" <${process.env.EMAIL_USER}>`,
-    to: email,
-    subject: 'Password Reset Request - CSSE',
-    html: `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              line-height: 1.6;
-              color: #333;
-            }
-            .container {
-              max-width: 600px;
-              margin: 0 auto;
-              padding: 20px;
-              background-color: #f9f9f9;
-            }
-            .header {
-              background-color: #dc2626;
-              color: white;
-              padding: 20px;
-              text-align: center;
-              border-radius: 5px 5px 0 0;
-            }
-            .content {
-              background-color: white;
-              padding: 30px;
-              border-radius: 0 0 5px 5px;
-            }
-            .otp-box {
-              background-color: #fef2f2;
-              border: 2px dashed #dc2626;
-              padding: 20px;
-              text-align: center;
-              margin: 20px 0;
-              border-radius: 5px;
-            }
-            .otp-code {
-              font-size: 32px;
-              font-weight: bold;
-              color: #dc2626;
-              letter-spacing: 5px;
-            }
-            .warning {
-              background-color: #fff7ed;
-              border-left: 4px solid #f59e0b;
-              padding: 15px;
-              margin: 20px 0;
-            }
-            .footer {
-              margin-top: 20px;
-              text-align: center;
-              color: #666;
-              font-size: 12px;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1>Password Reset Request</h1>
+  const htmlContent = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+          }
+          .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+          }
+          .header {
+            background-color: #dc2626;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+          }
+          .content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 0 0 5px 5px;
+          }
+          .otp-box {
+            background-color: #fef2f2;
+            border: 2px dashed #dc2626;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 5px;
+          }
+          .otp-code {
+            font-size: 32px;
+            font-weight: bold;
+            color: #dc2626;
+            letter-spacing: 5px;
+          }
+          .warning {
+            background-color: #fff7ed;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+          }
+          .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="container">
+          <div class="header">
+            <h1>Password Reset Request</h1>
+          </div>
+          <div class="content">
+            <h2>Reset Your Password</h2>
+            <p>We received a request to reset your password for your CSSE account.</p>
+            <p>Use the following One-Time Password (OTP) to reset your password:</p>
+            
+            <div class="otp-box">
+              <div class="otp-code">${otp}</div>
             </div>
-            <div class="content">
-              <h2>Reset Your Password</h2>
-              <p>We received a request to reset your password for your CSSE account.</p>
-              <p>Use the following One-Time Password (OTP) to reset your password:</p>
-              
-              <div class="otp-box">
-                <div class="otp-code">${otp}</div>
-              </div>
-              
-              <p><strong>This OTP will expire in 15 minutes.</strong></p>
-              
-              <div class="warning">
-                <strong>⚠️ Security Notice:</strong><br>
-                If you didn't request a password reset, please ignore this email and ensure your account is secure.
-              </div>
-              
-              <div class="footer">
-                <p>This is an automated message from CSSE. Please do not reply to this email.</p>
-              </div>
+            
+            <p><strong>This OTP will expire in 15 minutes.</strong></p>
+            
+            <div class="warning">
+              <strong>⚠️ Security Notice:</strong><br>
+              If you didn't request a password reset, please ignore this email and ensure your account is secure.
+            </div>
+            
+            <div class="footer">
+              <p>This is an automated message from CSSE. Please do not reply to this email.</p>
             </div>
           </div>
-        </body>
-      </html>
-    `
-  };
+        </div>
+      </body>
+    </html>
+  `;
 
   try {
-    return await sendEmailWithRetry(transporter, mailOptions);
+    const sendSmtpEmail = {
+      sender: { email: 'akashgupta7484@gmail.com', name: 'CSSE - Technical Society' },
+      to: [{ email: email }],
+      subject: 'Password Reset Request - CSSE',
+      htmlContent: htmlContent
+    };
+
+    const result = await transactionalEmailsApi.sendTransacEmail(sendSmtpEmail);
+    console.log('✅ Email sent successfully via Brevo. Message ID:', result.messageId);
+    return { success: true, messageId: result.messageId };
   } catch (error) {
-    console.error('Email sending error:', error);
+    console.error('Email sending error:', error.message || error);
     throw new Error('Failed to send email');
   }
 };
