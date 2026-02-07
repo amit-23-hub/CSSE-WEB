@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './EventHead.module.css';
-import img3 from '../../../assets/poster-1.png';
-import technicalPre1 from '../../../assets/events/technicalPre1.jpg'
-import techno2 from '../../../assets/events/techno2.jpg'
-import byteburst1 from '../../../assets/events/byteburst1.jpg'
+import img3 from '../../../assets/poster-1.avif';
+import technicalPre1 from '../../../assets/events/technicalPre1.avif'
+import techno2 from '../../../assets/events/techno2.avif'
+import byteburst1 from '../../../assets/events/byteburst1.avif'
 
 
 

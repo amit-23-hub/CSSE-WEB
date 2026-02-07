@@ -1,24 +1,24 @@
 import React from 'react';
 import './EventContent.css';
-import debate1 from '../../../assets/events/debate1.jpg'
-import debate2 from '../../../assets/events/debate2.jpg'
-import GD1 from '../../../assets/events/GD1.jpg'
-import GD2 from '../../../assets/events/GD2.jpg'
+import debate1 from '../../../assets/events/debate1.avif'
+import debate2 from '../../../assets/events/debate2.avif'
+import GD1 from '../../../assets/events/GD1.avif'
+import GD2 from '../../../assets/events/GD2.avif'
 import python1 from '../../../assets/events/python1.jpg'
 import python2 from '../../../assets/events/python2.jpg'
-import techno1 from '../../../assets/events/techno1.png'
-import techno2 from '../../../assets/events/techno2.jpg'
-import byteburst1 from '../../../assets/events/byteburst1.jpg'
-import byteburst2 from '../../../assets/events/byteburst2.jpg'
+import techno1 from '../../../assets/events/techno1.avif'
+import techno2 from '../../../assets/events/techno2.avif'
+import byteburst1 from '../../../assets/events/byteburst1.avif'
+import byteburst2 from '../../../assets/events/byteburst2.avif'
 import frame1 from '../../../assets/events/framefiesta1.jpg'
 // import frame2 from '../../../assets/events/framefiesta2.jpg'
-import technicalPre1 from '../../../assets/events/technicalPre1.jpg'
+import technicalPre1 from '../../../assets/events/technicalPre1.avif'
 // import technicalPre1 from '../../../assets/events/technicalPre1.jpg'
 // extempore
 // codebugger
-import webwonders1 from '../../../assets/gallery1.jpg'
-import webwonders2 from '../../../assets/gallery5.jpg'
-import creative1 from '../../../assets/gallery3.jpg'
+import webwonders1 from '../../../assets/gallery1.avif'
+import webwonders2 from '../../../assets/gallery5.avif'
+import creative1 from '../../../assets/gallery3.avif'
 // import creative2 from '../../../assets/gallery3.jpg'
 
 

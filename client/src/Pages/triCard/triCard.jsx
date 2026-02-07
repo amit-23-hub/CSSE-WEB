@@ -2,11 +2,11 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import gallery1 from '../../assets/gallery1.jpg'
-import gallery2 from '../../assets/gallery2.jpg'
-import gallery3 from '../../assets/gallery3.jpg'
-import gallery4 from '../../assets/gallery4.jpg'
-import gallery5 from '../../assets/gallery5.jpg'
+import gallery1 from '../../assets/gallery1.avif'
+import gallery2 from '../../assets/gallery2.avif'
+import gallery3 from '../../assets/gallery3.avif'
+import gallery4 from '../../assets/gallery4.avif'
+import gallery5 from '../../assets/gallery5.avif'
 
 
 
