@@ -1,8 +1,9 @@
 import React from "react";
 import "./Developer.css";
-import { FaTwitter, FaPinterest, FaFacebook, FaDribbble } from "react-icons/fa";
-import amit from "../../assets/amitkumarsahani.jpeg" ;
-import AdityaTripathi from "../../assets/AdityaTripathi.jpg" ;
+import { FaTwitter, FaPinterest, FaFacebook, FaDribbble, FaInstagram, FaLinkedin } from "react-icons/fa";
+import amit from "../../assets/amitkumarsahani.jpeg";
+import AdityaTripathi from "../../assets/AdityaTripathi.jpg";
+import Akash from "../../assets/AkashGupta.jpg";
 
 
 const Developer = () => {
@@ -24,9 +25,9 @@ const Developer = () => {
               />
               <h3>Amit Kumar Sahani</h3>
               <div className="team-info">
-                <p>Executive Member</p>
+                <p>Student Secretary</p>
               </div>
-              
+
 
               <ul className="team-icon">
                 <li>
@@ -36,8 +37,8 @@ const Developer = () => {
                 </li>
 
                 <li>
-                  <span className="pinterest">
-                    <FaPinterest />
+                  <span className="linkedin">
+                    <FaLinkedin />
                   </span>
                 </li>
 
@@ -48,8 +49,8 @@ const Developer = () => {
                 </li>
 
                 <li>
-                  <span className="dribble">
-                    <FaDribbble />
+                  <span className="instagram">
+                    <FaInstagram />
                   </span>
                 </li>
               </ul>
@@ -64,7 +65,7 @@ const Developer = () => {
               <div className="team-info">
                 <p>Executive Member</p>
               </div>
-              
+
 
               <ul className="team-icon">
                 <li>
@@ -74,8 +75,8 @@ const Developer = () => {
                 </li>
 
                 <li>
-                  <span className="pinterest">
-                    <FaPinterest />
+                  <span className="linkedin">
+                    <FaLinkedin />
                   </span>
                 </li>
 
@@ -86,24 +87,23 @@ const Developer = () => {
                 </li>
 
                 <li>
-                  <span className="dribble">
-                    <FaDribbble />
+                  <span className="instagram">
+                    <FaInstagram />
                   </span>
                 </li>
               </ul>
             </div>
             <div className="team-item">
               <img
-                src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-55958-614810.jpg&fm=jpg"
+                src={Akash}
                 className="team-img"
-                alt="pic"
-                style={{ width: '500px', height: '145px' }}
+                alt="akash"
               />
-              <h3>ELISA JOHANSON</h3>
+              <h3>Akash Gupta</h3>
               <div className="team-info">
-                <p>Marketing Manager</p>
+                <p>Technical Head</p>
               </div>
-              
+
 
               <ul className="team-icon">
                 <li>
@@ -113,8 +113,8 @@ const Developer = () => {
                 </li>
 
                 <li>
-                  <span className="pinterest">
-                    <FaPinterest />
+                  <span className="linkedin">
+                    <FaLinkedin />
                   </span>
                 </li>
 
@@ -125,8 +125,8 @@ const Developer = () => {
                 </li>
 
                 <li>
-                  <span className="dribble">
-                    <FaDribbble />
+                  <span className="instagram">
+                    <FaInstagram />
                   </span>
                 </li>
               </ul>

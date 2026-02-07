@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { FaHome, FaBars, FaTimes } from "react-icons/fa";
 import LOGOCSSE from '../assets/LOGOCSSE.png';
 import { useAuth } from '../context/AuthContext';
@@ -8,6 +8,7 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -18,11 +19,34 @@ const Navbar = () => {
     navigate('/');
   };
 
+  const scrollToAbout = () => {
+    // If not on home page, navigate to home first
+    if (location.pathname !== '/') {
+      navigate('/');
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const aboutSection = document.getElementById('about');
+        if (aboutSection) {
+          aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    } else {
+      // Already on home page, just scroll
+      const aboutSection = document.getElementById('about');
+      if (aboutSection) {
+        aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    setMenuOpen(false); // Close mobile menu if open
+  };
+
   return (
     <>
       <div className="flex justify-between items-center bg-slate-950 px-5 py-3">
         <div>
-          <img src={LOGOCSSE} alt="logo" className="h-12 sm:h-20" />
+          <Link to="/">
+            <img src={LOGOCSSE} alt="logo" className="h-12 sm:h-20" />
+          </Link>
         </div>
 
         {/* Hamburger Menu for Mobile */}
@@ -47,11 +71,13 @@ const Navbar = () => {
           <li className="p-2 cursor-pointer text-zinc-400">
             <Link to="/events">Events</Link>
           </li>
-          <li className="p-2 cursor-pointer text-zinc-400">About</li>
+          <li className="p-2 cursor-pointer text-zinc-400" onClick={scrollToAbout}>
+            About
+          </li>
           <li className="p-2 cursor-pointer text-zinc-400">
             <Link to="/members">Team</Link>
           </li>
-          <li className="p-2 cursor-pointer text-zinc-400">Contact</li>
+          {/* <li className="p-2 cursor-pointer text-zinc-400">Contact</li> */}
           {!user ? (
             <li>
               <Link
@@ -98,11 +124,12 @@ const Navbar = () => {
           <li>
             <Link to="/events">Events</Link>
           </li>
-          <li>About</li>
+          <li onClick={scrollToAbout}>
+            About
+          </li>
           <li>
             <Link to="/members">Team</Link>
           </li>
-          <li>Contact</li>
           <li>
             <Link
               to="/Login"

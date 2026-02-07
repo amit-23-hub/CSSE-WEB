@@ -11,7 +11,11 @@ import { HashLoader } from 'react-spinners';
 import ImageSlider2 from '../Society/Society2';
 
 const Hero = () => {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(() => {
+        // Only show loading on initial page load (refresh), not on navigation
+        const hasLoaded = sessionStorage.getItem('hasLoadedOnce');
+        return !hasLoaded;
+    });
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -22,12 +26,16 @@ const Hero = () => {
         checkScreenSize();
         window.addEventListener('resize', checkScreenSize);
 
-        setTimeout(() => {
-            setLoading(false);
-        }, 2000);
+        // Only show loading animation on first page load
+        if (loading) {
+            setTimeout(() => {
+                setLoading(false);
+                sessionStorage.setItem('hasLoadedOnce', 'true');
+            }, 2000);
+        }
 
         return () => window.removeEventListener('resize', checkScreenSize);
-    }, []);
+    }, [loading]);
 
     return (
         <>
