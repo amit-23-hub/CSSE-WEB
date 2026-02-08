@@ -31,7 +31,14 @@ import SaumyaSrivastava from '../assets/SaumyaSrivastava.jpg'
 import ShashankBhardwaj from '../assets/ShashankBhardwaj.jpg'
 import ShivankarTripathi from '../assets/ShivankarTripathi.jpg'
 import VaishnaviTripathi from '../assets/VaishnaviTripathi.jpg'
-
+import EshikaKumari from '../assets/Eshika.avif'
+import AnchalPatel from '../assets/Anchal.avif'
+import Atul from '../assets/Atul.avif'
+import Ayush from '../assets/Ayush.avif'
+import Sumit from '../assets/Sumit.avif'
+import Utkarsh from '../assets/Utkarsh.avif'
+import AryanPatel from '../assets/Aryan.avif'
+import AdarshSingh from '../assets/Adarsh.avif'
 
 export const members = [
    {
@@ -296,6 +303,69 @@ export const members = [
      branch: "BTech IT 3rd Year",
      designation: "Executive Member",
      image: VaishnaviTripathi,
+     linkedin: "https://www.linkedin.com/in/"
+   },  {
+     id: 34,
+     name: "Eshika Kumari",
+     branch: "BTech IT 2nd Year",
+     designation: "Executive Member",
+     image: EshikaKumari,
+     linkedin: "https://www.linkedin.com/in/"
+   },
+   {
+     id: 35,
+     name: "Anchal Patel",
+     branch: "BTech IT 2nd Year",
+     designation: "Executive Member",
+     image: AnchalPatel,
+     linkedin: "https://www.linkedin.com/in/"
+   },
+   {
+     id: 36,
+     name: "Atul Kumar Thakur",
+     branch: "BTech IT 2nd Year",
+     designation: "Executive Member",
+     image: Atul,
+     linkedin: "https://www.linkedin.com/in/"
+   },
+   {
+     id: 37,
+     name: "Ayush Dixit",
+     branch: "BTech IT 2nd Year",
+     designation: "Executive Member",
+     image: Ayush,
+     linkedin: "https://www.linkedin.com/in/"
+   },
+   {
+     id: 38,
+     name: "Utkarsh Yadav",
+     branch: "BTech IT 2nd Year",
+     designation: "Executive Member",
+     image: Utkarsh,
+     linkedin: "https://www.linkedin.com/in/"
+   },
+   {
+     id: 39,
+     name: "Sumit Chaurasiya ",
+     branch: "BTech IT 2nd Year",
+     designation: "Executive Member",
+     image: Sumit,
+     linkedin: "https://www.linkedin.com/in/"
+   },
+   {
+     id: 40,
+     name: "Adarsh Singh",
+     branch: "BTech IT 2nd Year",
+     designation: "Executive Member",
+     image: AdarshSingh,
+     linkedin: "https://www.linkedin.com/in/"
+   },
+   {
+     id: 41,
+     name: "Aryan Patel",
+     branch: "BTech IT 2nd Year",
+     designation: "Executive Member",
+     image: AryanPatel,
      linkedin: "https://www.linkedin.com/in/"
    }
  ];
