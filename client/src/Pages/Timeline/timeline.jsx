@@ -92,7 +92,7 @@ const Timeline = () => {
   return (
     <div>
       <div className='w-full items-center flex justify-center mt-10'>
-        <Link to='/csse'>
+        <Link to='/events'>
           <Button text={"Explore CSSE"} />
         </Link>
       </div>

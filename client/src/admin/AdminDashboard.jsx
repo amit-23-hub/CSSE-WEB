@@ -117,11 +117,11 @@ const AdminDashboard = () => {
 
               {/* Registrations List */}
               {selectedEventId && (
-                <div className="bg-[#1e293b] rounded-2xl shadow-xl p-6">
-                  <h2 className="text-2xl font-bold text-white mb-4">
+                <div className="bg-[#1e293b] rounded-2xl shadow-xl p-4 md:p-6">
+                  <h2 className="text-xl md:text-2xl font-bold text-white mb-4 flex flex-wrap items-center gap-2">
                     Registrations
-                    <span className="text-lg font-normal text-zinc-400 ml-2">
-                      ({registrations.length})
+                    <span className="text-base md:text-lg font-normal text-zinc-400 bg-slate-700 px-2 py-0.5 rounded-full">
+                      {registrations.length}
                     </span>
                   </h2>
 
@@ -136,19 +136,19 @@ const AdminDashboard = () => {
                       {registrations.map((registration, index) => (
                         <div
                           key={registration._id}
-                          className="bg-[#334155] rounded-lg p-6 border border-[#475569]"
+                          className="bg-[#334155] rounded-lg p-4 md:p-6 border border-[#475569]"
                         >
-                          <div className="flex justify-between items-start mb-4">
+                          <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-4 gap-2">
                             <div>
-                              <h3 className="text-xl font-semibold text-white mb-2">
+                              <h3 className="text-lg md:text-xl font-semibold text-white mb-1">
                                 Registration #{index + 1}
-                                {registration.subEvent && <span className="text-cyan-400 ml-2">({registration.subEvent.name})</span>}
+                                {registration.subEvent && <span className="text-cyan-400 ml-2 block md:inline text-sm md:text-base">({registration.subEvent.name})</span>}
                               </h3>
-                              <p className="text-zinc-400 text-sm">
-                                Registered by: {registration.teamLeader?.name} ({registration.teamLeader?.email})
+                              <p className="text-zinc-400 text-sm break-all">
+                                <span className="font-semibold text-zinc-300">By:</span> {registration.teamLeader?.name} <br className="sm:hidden" /> &lt;{registration.teamLeader?.email}&gt;
                               </p>
-                              <p className="text-zinc-400 text-sm">
-                                Date: {new Date(registration.createdAt).toLocaleString()}
+                              <p className="text-zinc-400 text-sm mt-1">
+                                <span className="font-semibold text-zinc-300">Date:</span> {new Date(registration.createdAt).toLocaleString()}
                               </p>
                             </div>
                           </div>

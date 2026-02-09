@@ -178,11 +178,11 @@ const ManageEvents = () => {
 
     return (
         <div className="text-white">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
                 <h2 className="text-2xl font-bold">Manage Events</h2>
                 <button
                     onClick={handleCreateEvent}
-                    className="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-lg font-semibold transition-colors"
+                    className="bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-lg font-semibold transition-colors w-full md:w-auto"
                 >
                     + Add New Event
                 </button>
@@ -192,16 +192,16 @@ const ManageEvents = () => {
 
             <div className="space-y-6">
                 {events.map(event => (
-                    <div key={event._id} className="bg-[#334155] p-6 rounded-xl border border-[#475569]">
-                        <div className="flex justify-between items-start">
-                            <div className="flex gap-4">
+                    <div key={event._id} className="bg-[#334155] p-4 md:p-6 rounded-xl border border-[#475569]">
+                        <div className="flex flex-col md:flex-row justify-between items-start gap-4">
+                            <div className="flex flex-col sm:flex-row gap-4 w-full">
                                 {event.icon && (event.icon.startsWith('http') ? (
-                                    <img src={event.icon} alt={event.name} className="w-16 h-16 object-cover rounded-lg" />
+                                    <img src={event.icon} alt={event.name} className="w-full sm:w-16 h-32 sm:h-16 object-cover rounded-lg" />
                                 ) : (
                                     <span className="text-4xl">{event.icon}</span>
                                 ))}
-                                <div>
-                                    <h3 className="text-xl font-bold flex items-center gap-2">
+                                <div className="flex-1">
+                                    <h3 className="text-xl font-bold flex flex-wrap items-center gap-2">
                                         {event.name}
                                         <span className={`text-xs px-2 py-1 rounded-full ${event.status === 'open' ? 'bg-green-500/20 text-green-300' :
                                             event.status === 'closed' ? 'bg-red-500/20 text-red-300' : 'bg-yellow-500/20 text-yellow-300'
@@ -212,23 +212,23 @@ const ManageEvents = () => {
                                     <p className="text-gray-400 text-sm mt-1">
                                         Date: {event.eventDate ? new Date(event.eventDate).toLocaleDateString() : 'Not Set'}
                                     </p>
-                                    <p className="text-gray-400 mt-1">{event.description}</p>
-                                    <div className="mt-2 text-sm text-gray-300 grid grid-cols-2 gap-x-4">
+                                    <p className="text-gray-400 mt-1 text-sm md:text-base">{event.description}</p>
+                                    <div className="mt-2 text-sm text-gray-300 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
                                         <p>Type: {event.registrationType}</p>
                                         <p>Participants: {event.minParticipants}-{event.maxParticipants}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 w-full md:w-auto shrink-0 mt-2 md:mt-0">
                                 <button
                                     onClick={() => handleEditEvent(event)}
-                                    className="text-cyan-400 hover:text-cyan-300 px-3 py-1 rounded bg-slate-700 hover:bg-slate-600"
+                                    className="flex-1 md:flex-none text-cyan-400 hover:text-cyan-300 px-3 py-2 md:py-1 rounded bg-slate-700 hover:bg-slate-600 text-center"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     onClick={() => handleDeleteEvent(event._id)}
-                                    className="text-red-400 hover:text-red-300 px-3 py-1 rounded bg-slate-700 hover:bg-slate-600"
+                                    className="flex-1 md:flex-none text-red-400 hover:text-red-300 px-3 py-2 md:py-1 rounded bg-slate-700 hover:bg-slate-600 text-center"
                                 >
                                     Delete
                                 </button>

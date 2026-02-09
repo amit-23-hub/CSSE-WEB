@@ -37,7 +37,8 @@ const register = async (req, res) => {
       year,
       branch,
       phone,
-      isEmailVerified: true
+      isEmailVerified: true,
+      profilePic: `https://api.dicebear.com/5.x/initials/svg?seed=${name}`
     });
 
     await user.save();

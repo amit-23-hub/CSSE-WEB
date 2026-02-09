@@ -116,28 +116,67 @@ const Navbar = () => {
       {menuOpen && (
         <ul className="sm:hidden bg-slate-950 text-zinc-400 font-bold flex flex-col items-start px-5 py-3 space-y-3">
           <li className="flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2" onClick={() => setMenuOpen(false)}>
               <FaHome className="text-2xl" />
               <span>Home</span>
             </Link>
           </li>
           <li>
-            <Link to="/events">Events</Link>
+            <Link to="/events" onClick={() => setMenuOpen(false)}>Events</Link>
           </li>
           <li onClick={scrollToAbout}>
             About
           </li>
           <li>
-            <Link to="/members">Team</Link>
+            <Link to="/members" onClick={() => setMenuOpen(false)}>Team</Link>
           </li>
-          <li>
-            <Link
-              to="/Login"
-              className="text-cyan-600 hover:bg-cyan-400 hover:text-white hover:rounded-lg py-2 mt-2"
-            >
-              Sign / Log
-            </Link>
-          </li>
+
+          {!user ? (
+            <li>
+              <Link
+                to="/Login"
+                className="text-cyan-600 hover:bg-cyan-400 hover:text-white hover:rounded-lg py-2 mt-2 inline-block"
+                onClick={() => setMenuOpen(false)}
+              >
+                Sign / Log
+              </Link>
+            </li>
+          ) : (
+            <>
+              {user.role === 'admin' && (
+                <li>
+                  <Link
+                    to="/admin/dashboard"
+                    className="text-cyan-400 hover:text-cyan-300 py-1 block"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              )}
+              <li className="flex flex-col gap-3 mt-2 pt-2 border-t border-slate-800 w-full">
+                <button
+                  onClick={() => {
+                    navigate(user.role === 'admin' ? '/admin/dashboard' : '/profile');
+                    setMenuOpen(false);
+                  }}
+                  className="flex items-center gap-3 text-zinc-200"
+                >
+                  <img src={user.profilePic || 'https://via.placeholder.com/36'} alt="avatar" className="w-10 h-10 rounded-full object-cover border border-slate-600" />
+                  <span className="text-base">{user.name || 'Profile'}</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMenuOpen(false);
+                  }}
+                  className="text-left text-red-400 hover:text-red-300 py-1"
+                >
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
         </ul>
       )}
     </>
