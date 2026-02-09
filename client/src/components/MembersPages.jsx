@@ -55,9 +55,7 @@ const MembersPage = () => {
                   Meet the CSSE Team
                </p>
                <p className="text-base text-zinc-300 mt-[2vh] text-center">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-                  tenetur, quia possimus voluptas in provident saepe, maxime iusto
-                  praesentium suscipit deleniti assumenda fuga sed.
+                 Spark To Better Initiative.
                </p>
             </div>
 

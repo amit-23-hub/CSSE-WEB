@@ -4,7 +4,7 @@ const events = [
   {
     title: 'Tech Symposium',
     description: 'An event to showcase the latest in tech innovations. Come and see the latest tech projects by our society members.',
-    image: './assets/poster-1.png', // Replace with your image path
+    image: './assets/poster-1.avif', // Replace with your image path
   },
   {
     title: 'Cultural Fest',
