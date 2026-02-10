@@ -3,13 +3,10 @@ const jwt = require('jsonwebtoken');
 const { generateOTP, createOTPRecord, verifyOTPRecord, deleteOTPRecord } = require('../utils/otpUtils');
 const { sendOTPEmail, sendPasswordResetEmail } = require('../config/emailService');
 
-
-// Register new user (requires prior email verification)
 const register = async (req, res) => {
   try {
     const { name, email, password, year, branch, phone, verificationToken } = req.body;
 
-    // Validate required fields
     if (!name || !email || !password || !year || !branch || !phone) {
       return res.status(400).json({
         success: false,
@@ -17,7 +14,6 @@ const register = async (req, res) => {
       });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -25,11 +21,6 @@ const register = async (req, res) => {
         message: 'User already exists with this email'
       });
     }
-
-    // Note: In production, you might want to validate the verificationToken
-    // For now, we assume the frontend only sends this request after successful OTP verification
-
-    // Create new user with email verified
     const user = new User({
       name,
       email,
@@ -61,6 +52,7 @@ const register = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
+      token,
       user: {
         id: user._id,
         name: user.name,
@@ -131,6 +123,7 @@ const login = async (req, res) => {
     res.status(200).json({
       success: true,
       message: 'Login successful',
+      token,
       user: {
         id: user._id,
         name: user.name,

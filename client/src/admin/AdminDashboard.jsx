@@ -16,6 +16,7 @@ const AdminDashboard = () => {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Fetch events on mount to populate dropdown
   useEffect(() => {
@@ -57,6 +58,71 @@ const AdminDashboard = () => {
       setLoading(false);
     }
   };
+
+  const handleExport = () => {
+    if (!registrations.length) return;
+
+    const eventName = events.find(e => e._id === selectedEventId)?.name || 'Event';
+    const headers = [
+      'Event Name',
+      'Sub-Event',
+      'Registration Date',
+      'Team Leader Name',
+      'Team Leader Email',
+      'Participant Phone',
+      'Branch',
+      'Year'
+    ];
+
+    const csvRows = [headers.join(',')];
+
+    registrations.forEach(reg => {
+      const subEventName = reg.subEvent?.name || 'N/A';
+      const regDate = new Date(reg.createdAt).toLocaleString().replace(/,/g, '');
+      const leaderName = reg.teamLeader?.name || 'N/A';
+      const leaderEmail = reg.teamLeader?.email || 'N/A';
+
+      reg.participants?.forEach(p => {
+        const row = [
+          `"${eventName}"`,
+          `"${subEventName}"`,
+          `"${regDate}"`,
+          `"${leaderName}"`,
+          `"${leaderEmail}"`,
+          `"${p.phone || ''}"`,
+          `"${p.branch || ''}"`,
+          `"${p.year || ''}"`
+        ];
+        csvRows.push(row.join(','));
+      });
+    });
+
+    const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${eventName.replace(/\s+/g, '_')}_registrations.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const filteredRegistrations = registrations.filter(reg => {
+    if (!searchTerm) return true;
+    const lowerTerm = searchTerm.toLowerCase();
+
+    // Search in team leader details
+    if (reg.teamLeader?.name?.toLowerCase().includes(lowerTerm) ||
+      reg.teamLeader?.email?.toLowerCase().includes(lowerTerm)) {
+      return true;
+    }
+
+    // Search in participants
+    return reg.participants?.some(p =>
+      p.name?.toLowerCase().includes(lowerTerm) ||
+      p.email?.toLowerCase().includes(lowerTerm)
+    );
+  });
 
   return (
     <>
@@ -118,22 +184,39 @@ const AdminDashboard = () => {
               {/* Registrations List */}
               {selectedEventId && (
                 <div className="bg-[#1e293b] rounded-2xl shadow-xl p-4 md:p-6">
-                  <h2 className="text-xl md:text-2xl font-bold text-white mb-4 flex flex-wrap items-center gap-2">
-                    Registrations
-                    <span className="text-base md:text-lg font-normal text-zinc-400 bg-slate-700 px-2 py-0.5 rounded-full">
-                      {registrations.length}
-                    </span>
+                  <h2 className="text-xl md:text-2xl font-bold text-white mb-4 flex flex-wrap items-center gap-2 justify-between">
+                    <div className="flex items-center gap-2">
+                      Registrations
+                      <span className="text-base md:text-lg font-normal text-zinc-400 bg-slate-700 px-2 py-0.5 rounded-full">
+                        {filteredRegistrations.length} / {registrations.length}
+                      </span>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                      <input
+                        type="text"
+                        placeholder="Search by name or email..."
+                        className="bg-slate-700 text-white px-3 py-2 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500 w-full sm:w-64"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                      <button
+                        onClick={handleExport}
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap"
+                      >
+                        Export CSV
+                      </button>
+                    </div>
                   </h2>
 
                   {loading ? (
                     <div className="text-white text-center py-8">Loading...</div>
-                  ) : registrations.length === 0 ? (
+                  ) : filteredRegistrations.length === 0 ? (
                     <div className="text-zinc-400 text-center py-8">
-                      No registrations found for this event.
+                      {searchTerm ? 'No matches found for your search.' : 'No registrations found for this event.'}
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {registrations.map((registration, index) => (
+                      {filteredRegistrations.map((registration, index) => (
                         <div
                           key={registration._id}
                           className="bg-[#334155] rounded-lg p-4 md:p-6 border border-[#475569]"
