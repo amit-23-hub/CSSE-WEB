@@ -1,0 +1,72 @@
+{
+  "homepage": "https://amit-23-hub.github.io/CSSE-WEB",
+  "name": "csse-webapp",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "start:server": "node src/server/index.js",
+    "install-server-deps": "cd src/server && npm install",
+    "build": "vite build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@tsparticles/react": "^3.0.0",
+    "ajv": "^8.17.1",
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.13.2",
+    "bcryptjs": "^3.0.3",
+    "classnames": "^2.5.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "framer-motion": "^11.5.6",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.563.0",
+    "mongoose": "^8.19.3",
+    "postcss": "^8.4.47",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-faq-component": "^1.3.4",
+    "react-icons": "^5.3.0",
+    "react-intersection-observer": "^9.13.1",
+    "react-player": "^2.16.0",
+    "react-router-dom": "^6.26.2",
+    "react-slick": "^0.30.2",
+    "react-spinners": "^0.14.1",
+    "slick-carousel": "^1.8.1",
+    "tailwindcss": "^3.4.13",
+    "tsparticles": "^3.5.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "gh-pages": "^6.1.1",
+    "globals": "^15.9.0",
+    "sass-embedded": "^1.79.3",
+    "vite": "^7.3.1"
+  },
+  "description": "project is live here : https://csse-web-eight.vercel.app/",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shubhojeet2005/CSSE-WEB.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shubhojeet2005/CSSE-WEB/issues"
+  }
+}
